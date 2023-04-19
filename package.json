@@ -1,5 +1,5 @@
 {
-  "name": "rn-ulis-sdk",
+  "name": "rn-pay-sdk",
   "version": "0.1.0",
   "description": "test",
   "main": "lib/commonjs/index",
@@ -41,13 +41,16 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/harshalrandhe/rn-ulis-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshalrandhe/Rn-Ulis-SDK.git"
+  },
   "author": "harshalrandhe <harshal.r@ulistechnology.com> (https://github.com/harshalrandhe)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/harshalrandhe/rn-ulis-sdk/issues"
+    "url": "https://github.com/harshalrandhe/Rn-Ulis-SDK.git/issues"
   },
-  "homepage": "https://github.com/harshalrandhe/rn-ulis-sdk#readme",
+  "homepage": "https://github.com/harshalrandhe/Rn-Ulis-SDK.git#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -156,5 +159,8 @@
         }
       ]
     ]
+  },
+  "directories": {
+    "example": "example"
   }
 }

@@ -5,17 +5,16 @@ SDK
 ## Installation
 
 ```sh
-npm install rn-ulis-sdk
+npm install rn-pay-sdk
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'rn-ulis-sdk';
+import { open } from 'rn-pay-sdk';
 
 // ...
 
-const result = await multiply(3, 7);
 ```
 
 ## Contributing
