@@ -66,6 +66,13 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
+  implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+  implementation files(':telrpaysdk')
+  implementation 'com.android.support:design:28.0.0'
+  implementation 'androidx.databinding:viewbinding:7.1.2'
+  implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+  implementation 'com.google.code.gson:gson:2.10.1'
+
 }
 
 if (isNewArchitectureEnabled()) {
