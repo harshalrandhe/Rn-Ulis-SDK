@@ -1,7 +1,8 @@
 {
   "name": "rn-pay-sdk",
   "version": "0.1.0",
-  "description": "test",
+  "description": "Our mission is to build connections that remove fragmentation in the e-commerce ecosystem. We make these connections to enable our customers to go cashless, digitizing the way that they accept payments",
+  "package-name": "rn-pay-sdk",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
