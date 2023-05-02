@@ -1,13 +1,34 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, TouchableHighlight, Alert } from 'react-native';
-import { multiply, add, open } from 'rn-ulis-sdk';
+import { Alert, NativeEventEmitter, NativeModules, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { open } from 'rn-ulis-sdk';
 
 export default function App() {
-  const [SuccessResponse, setSuccessResponse] = React.useState<any | undefined>();
-  const [ErrorResponse, setErrorResponse] = React.useState<any | undefined>();
+
+
+  const telrpayEvents = new NativeEventEmitter(NativeModules.RnUlisSdk)
+
+  React.useEffect(() => {
+
+    telrpayEvents.addListener('Telr::PAYMENT_SUCCESS', (data: any) => {
+      console.log("PAYMENT_SUCCESS", data)
+    });
+    telrpayEvents.addListener('Telr::PAYMENT_ERROR', (data: any) => {
+      console.log("PAYMENT_ERROR", data)
+    });
+    telrpayEvents.addListener('Telr::PAYMENT_CANCELLED', (data: any) => {
+      console.log("PAYMENT_CANCELLED", data)
+    });
+
+    return () => {
+      telrpayEvents.removeAllListeners('Telr::PAYMENT_SUCCESS');
+      telrpayEvents.removeAllListeners('Telr::PAYMENT_ERROR');
+      telrpayEvents.removeAllListeners('Telr::PAYMENT_CANCELLED');
+    }
+  }, [])
 
   return (
+
     <View style={styles.container}>
 
       <TouchableHighlight
@@ -65,17 +86,22 @@ export default function App() {
           }
 
           // open(options).then(setSuccessResponse)
-          open(options, (response: any) => {
+          // open(options, (response: any) => {
 
-            console.log("Success", response)
-            Alert.alert(response.message)
+          //   console.log("Success", response)
+          //   Alert.alert(response.message)
 
-          }, (error: any) => {
+          // }, (error: any) => {
 
-            console.log("Error", error)
-            Alert.alert(error.message)
+          //   console.log("Error", error)
+          //   Alert.alert(error.message)
 
-          });
+          // });
+
+          // multiply(3, 5).then(setResult);
+
+          NativeModules.RnUlisSdk.open(options);
+
 
         }}
       >
@@ -100,3 +126,4 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
 });
+

@@ -1,8 +1,8 @@
 {
-  "name": "rn-pay-sdk",
+  "name": "rn-ulis-sdk",
   "version": "0.1.1",
   "description": "Our mission is to build connections that remove fragmentation in the e-commerce ecosystem. We make these connections to enable our customers to go cashless, digitizing the way that they accept payments",
-  "package-name": "rn-pay-sdk",
+  "package-name": "rn-ulis-sdk",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",

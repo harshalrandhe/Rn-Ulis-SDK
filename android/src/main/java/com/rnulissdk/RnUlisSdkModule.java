@@ -105,7 +105,7 @@ public class RnUlisSdkModule extends ReactContextBaseJavaModule
       } catch (Exception e) {
         e.printStackTrace();
       }
-      sendEvent("Telrpay::PAYMENT_SUCCESS", Utils.jsonToWritableMap(paymentDataJson));
+      sendEvent("Telr::PAYMENT_SUCCESS", Utils.jsonToWritableMap(paymentDataJson));
 
     } else {
 
@@ -118,7 +118,7 @@ public class RnUlisSdkModule extends ReactContextBaseJavaModule
       } catch (Exception e) {
         e.printStackTrace();
       }
-      sendEvent("Telrpay::PAYMENT_ERROR", Utils.jsonToWritableMap(paymentDataJson));
+      sendEvent("Telr::PAYMENT_ERROR", Utils.jsonToWritableMap(paymentDataJson));
     }
   }
 
@@ -134,7 +134,7 @@ public class RnUlisSdkModule extends ReactContextBaseJavaModule
     } catch (Exception e) {
       e.printStackTrace();
     }
-    sendEvent("Telrpay::PAYMENT_CANCEL", Utils.jsonToWritableMap(paymentDataJson));
+    sendEvent("Telr::PAYMENT_CANCELLED", Utils.jsonToWritableMap(paymentDataJson));
   }
 
   private void sendEvent(String eventName, WritableMap params) {
