@@ -27,78 +27,125 @@ class ReceiptViewController: UIViewController {
     var responseBean: ResponseBean!
     
     func showStatusLabel(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.5, height: 21))
-        statusLabel.center = CGPoint(x: 160, y: 185)
-        statusLabel.center = self.view.center;
+        statusLabel = UILabel(frame: CGRect(x: 20, y: 100, width: screenWidth-100, height: 21))
+//        statusLabel.center = CGPoint(x: 160, y: 185)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.lineBreakMode = .byWordWrapping
         statusLabel.numberOfLines = 0
         statusLabel.textAlignment = .center
         statusLabel.text = labelText
+        
+        self.view.addSubview(statusLabel)
     }
     
-    func showTransactionId(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.5, height: 21))
-        statusLabel.center = CGPoint(x: 60, y: 325)
-        statusLabel.center = self.view.center;
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
-        statusLabel.textAlignment = .center
-        statusLabel.text = labelText
-    }
     
     func showOrderId(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.5, height: 21))
-        statusLabel.center = CGPoint(x: 60, y: 315)
-        statusLabel.center = self.view.center;
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
-        statusLabel.textAlignment = .center
-        statusLabel.text = labelText
+        labelOrderId = UILabel(frame: CGRect(x: 30, y: 250, width: screenWidth-100, height: 21))
+//        labelOrderId.center = CGPoint(x: 160, y: 315)
+        labelOrderId.translatesAutoresizingMaskIntoConstraints = false
+        labelOrderId.lineBreakMode = .byWordWrapping
+        labelOrderId.numberOfLines = 1
+        labelOrderId.textAlignment = .left
+        labelOrderId.text = labelText
+        
+        self.view.addSubview(labelOrderId)
     }
     
     
     func showMobileNo(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.5, height: 21))
-        statusLabel.center = CGPoint(x: 60, y: 305)
-        statusLabel.center = self.view.center;
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
-        statusLabel.textAlignment = .center
-        statusLabel.text = labelText
+        labelMobileNumber = UILabel(frame: CGRect(x: 30, y: 280, width: screenWidth-100, height: 21))
+//        labelMobileNumber.center = CGPoint(x: 160, y: 305)
+        labelMobileNumber.translatesAutoresizingMaskIntoConstraints = false
+        labelMobileNumber.lineBreakMode = .byWordWrapping
+        labelMobileNumber.numberOfLines = 0
+        labelMobileNumber.textAlignment = .left
+        labelMobileNumber.text = labelText
+        
+        self.view.addSubview(labelMobileNumber)
     }
     
     func showPrice(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.5, height: 21))
-        statusLabel.center = CGPoint(x: 60, y: 295)
-        statusLabel.center = self.view.center;
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
-        statusLabel.textAlignment = .center
-        statusLabel.text = labelText
+        labelPrice = UILabel(frame: CGRect(x: 30, y: 310, width: screenWidth-100, height: 21))
+//        labelPrice.center = CGPoint(x: 160, y: 295)
+        labelPrice.translatesAutoresizingMaskIntoConstraints = false
+        labelPrice.lineBreakMode = .byWordWrapping
+        labelPrice.numberOfLines = 0
+        labelPrice.textAlignment = .left
+        labelPrice.text = labelText
+        
+        self.view.addSubview(labelPrice)
     }
     
     func showMerchantName(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth/1.5, height: 21))
-        statusLabel.center = CGPoint(x: 60, y: 285)
-        statusLabel.center = self.view.center;
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
-        statusLabel.textAlignment = .center
-        statusLabel.text = labelText
+        labelMerchantName = UILabel(frame: CGRect(x: 30, y: 340, width: screenWidth-100, height: 21))
+//        labelMerchantName.center = CGPoint(x: 160, y: 285)
+        labelMerchantName.translatesAutoresizingMaskIntoConstraints = false
+        labelMerchantName.lineBreakMode = .byWordWrapping
+        labelMerchantName.numberOfLines = 0
+        labelMerchantName.textAlignment = .left
+        labelMerchantName.text = labelText
+        
+        self.view.addSubview(labelMerchantName)
     }
-
+    
+    func showTransactionId(labelText: String){
+        labelTransactionId = UILabel(frame: CGRect(x: 30, y: 370, width: screenWidth-100, height: 21))
+//        labelTransactionId.center = CGPoint(x: 160, y: 325)
+        labelTransactionId.translatesAutoresizingMaskIntoConstraints = false
+        labelTransactionId.lineBreakMode = .byWordWrapping
+        labelTransactionId.numberOfLines = 1
+        labelTransactionId.textAlignment = .left
+        labelTransactionId.text = labelText
+        
+        self.view.addSubview(labelTransactionId)
+    }
     
     func showMerchantLogo(imageUrl: String){
 //        merchantLogo  = UIImageView(frame:CGRectMake(10, 50, 100, 300));
 //        merchantLogo.image = UIImage(named:"image.jpg")
     }
+    
+    func showDoneButton(){
+        btnDone = UIButton(frame: CGRect(x: 20, y: screenHeight-100, width: screenWidth-60, height: 50))
+        btnDone.center = CGPoint(x: 190, y: screenHeight-100)
+        btnDone.backgroundColor = .black
+        btnDone.translatesAutoresizingMaskIntoConstraints = false
+        btnDone.layer.cornerRadius = 5
+        btnDone.tag = 1
+        btnDone.setTitle("Button", for: .normal)
+        btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
+        self.view.addSubview(btnDone)
+    }
+    
+    func showDoneButton2(){
+        var btnDone = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 50))
+        btnDone.backgroundColor = .black
+        btnDone.translatesAutoresizingMaskIntoConstraints = false
+        btnDone.layer.cornerRadius = 5
+        btnDone.tag = 1
+        btnDone.setTitle("Button2", for: .normal)
+        btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
+        self.view.addSubview(btnDone)
+    }
 
+    @objc func onPressDone(_ sender: UIButton) {
+        
+//        let encodedData = try JSONEncoder().encode(responseBean)
+//        let jsonString = String(data: encodedData, encoding: .utf8)
+        print("button preesed!")
+        
+        RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_SUCCESS", body: responseBean!)
+        
+        let mainWindow = UIApplication.shared.delegate?.window
+        mainWindow?!.removeFromSuperview()
+        mainWindow??.makeKeyAndVisible()
+        
+        self.view.removeFromSuperview()
+        
+        self.navigationController?.viewControllers.removeAll(where: {$0.isModalInPopover})
+
+        self.navigationController?.dismiss(animated: true)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         // Hide the navigation bar on the this view controller
@@ -114,16 +161,10 @@ class ReceiptViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = ""
-    
-        view = UIView()
-        view.backgroundColor = .white
-        view.addSubview(statusLabel)
-        view.addSubview(labelMerchantName)
-        view.addSubview(labelPrice)
-        view.addSubview(labelOrderId)
-        view.addSubview(labelMobileNumber)
-        view.addSubview(labelTransactionId)
-        view.addSubview(merchantLogo)
+        
+        self.view.backgroundColor = .white
+        
+        self.showDoneButton()
         
         
         if let Data = responseBean.data as? [String : Any]{
@@ -142,9 +183,10 @@ class ReceiptViewController: UIViewController {
 //                self.labelMobileNumber.text = mobileNo!
 //                self.labelOrderId.text = orderId!
                 
-                self.showPrice(labelText: currency! + " " + amount!)
-                self.showMobileNo(labelText: mobileNo!)
-                self.showOrderId(labelText: orderId!)
+                self.showPrice(labelText: "Amount: " + currency! + " " + amount!)
+                self.showMobileNo(labelText: "Mobile No.: " + mobileNo!)
+                self.showOrderId(labelText: "Order ID: " + orderId!)
+                self.showTransactionId(labelText: "Txn. ID: " + "-")
 
             }
 
@@ -153,8 +195,7 @@ class ReceiptViewController: UIViewController {
                 let merchantName = MerchantDetails["merchant_name"] as? String
 
 //                self.loadImageFromUrl(url: logo!, imageView: self.merchantLogo)
-//                self.labelMerchantName.text = merchantName!
-                self.showMerchantName(labelText: merchantName!)
+                self.showMerchantName(labelText: "Merchant: " + merchantName!)
             }
         }
 
@@ -167,38 +208,25 @@ class ReceiptViewController: UIViewController {
 
 
         if(paymentStatus! == "AUTHORISED"){
-
 //            ivStatus.image = successGif
-//            statusLabel.text = "Paid successfully!"
             self.showStatusLabel(labelText: "Paid successfully!")
-
+            self.statusLabel.textColor = .green
         }else if(paymentStatus! == "CANCELLED"){
-
 //            ivStatus.image = failedImg
-//            statusLabel.text = "Payment is cancelled!"
             self.showStatusLabel(labelText: "Payment is cancelled!")
+            self.statusLabel.textColor = .red
+        }else {
+            self.showStatusLabel(labelText: paymentStatus!)
+            self.statusLabel.textColor = .orange
         }
         
         self.loadImageFromUrl(url: "https://ulis.live:4010/static/images/fav_icon-1672899475914-616922036.png", imageView: self.merchantLogo)
         
 //        DispatchQueue.main.async { self.setImagePlacehoder(imageView: self.merchantLogo) }
         
-        // Add action to button
-//        btnDone.addTarget(self, action: #selector(onPressDone(sender:)), for: UIControl.Event.touchUpInside)
-        
-        
-        self.showStatusLabel(labelText: "Paid successfully!")
-        self.showPrice(labelText: "$ 120")
-        self.showMerchantName(labelText: "merchantName")
-        self.showMobileNo(labelText: "mobileNo")
-        self.showOrderId(labelText: "orderId")
         
     }
 
-    @objc func onPressDone(sender: UIButton) {
-        self.performSegueToReturnBack(response: responseBean)
-    }
-    
     /**
      * Post Result Return Back To The Previoues screen
      */
@@ -250,6 +278,8 @@ class ReceiptViewController: UIViewController {
         let merchantImageData = try? Data(contentsOf: Bundle.main.url(forResource: "store", withExtension: "png")!)
         DispatchQueue.main.async { imageView.image = UIImage(data: merchantImageData!) }
     }
+    
+    
     /*
     // MARK: - Navigation
 

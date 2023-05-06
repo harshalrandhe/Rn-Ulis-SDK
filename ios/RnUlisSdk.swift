@@ -6,6 +6,14 @@ import UIKit
 class RnUlisSdk: RCTEventEmitter {
 
     var window: UIWindow!
+    public static var shared: RnUlisSdk?
+    var discoverVC: UIViewController!
+    var navigationController: UINavigationController!
+    
+    override init() {
+    super.init()
+        RnUlisSdk.shared = self
+    }
     
     @objc(multiply:withB:withResolver:withRejecter:)
     func multiply(a: Float, b: Float, resolve: RCTPromiseResolveBlock,reject: RCTPromiseRejectBlock) -> Void
@@ -28,16 +36,22 @@ class RnUlisSdk: RCTEventEmitter {
             self.window = UIWindow(frame: UIScreen.main.bounds)
             let orderVC = OrderViewController()
             orderVC.orderAction = "create"
-            let discoverVC = orderVC as UIViewController
-            let navigationController = UINavigationController(rootViewController: discoverVC)
-            navigationController.navigationBar.isTranslucent = false
-            self.window.rootViewController = navigationController
+            self.discoverVC = orderVC as UIViewController
+            self.navigationController = UINavigationController(rootViewController: self.discoverVC)
+            self.navigationController.navigationBar.isTranslucent = false
+            self.window.rootViewController = self.navigationController
             self.window.makeKeyAndVisible()
         }
         
-//         resolve(option)
-//        sendEvent(withName: "Telr::PAYMENT_SUCCESS", body: "Hellllooooo")
     }
     
-    
+    func sendBackEvent(withName: String, body: ResponseBean) -> Void {
+        
+        
+        sendEvent(withName: withName, body: body.data)
+        print("Event sent >>", withName)
+        print("Received Data: " ,body)
+
+        return
+    }
 }

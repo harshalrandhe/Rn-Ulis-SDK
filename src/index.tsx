@@ -1,4 +1,4 @@
-import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
+import { NativeEventEmitter, NativeModules, Platform, } from 'react-native';
 
 const LINKING_ERROR =
   `The package 'rn-ulis-sdk' doesn't seem to be linked. Make sure: \n\n` +
@@ -21,7 +21,8 @@ const RnUlisSdk = NativeModules.RnUlisSdk
 // return RnUlisSdk.multiply(a, b);
 // }
 
-const telrpayEvents = new NativeEventEmitter(Platform.OS = 'android' ? NativeModules.RnUlisSdk : NativeModules.RnUlisSdk);
+
+const telrpayEvents = new NativeEventEmitter(NativeModules.RnUlisSdk);
 
 const removeSubscriptions = () => {
   telrpayEvents.removeAllListeners('Telr::PAYMENT_SUCCESS');

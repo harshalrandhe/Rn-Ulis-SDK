@@ -12,12 +12,15 @@ export default function App() {
 
     telrpayEvents.addListener('Telr::PAYMENT_SUCCESS', (data: any) => {
       console.log("PAYMENT_SUCCESS", data)
+      Alert.alert("Transactions successful!")
     });
     telrpayEvents.addListener('Telr::PAYMENT_ERROR', (data: any) => {
       console.log("PAYMENT_ERROR", data)
+      Alert.alert("Transactions error!")
     });
     telrpayEvents.addListener('Telr::PAYMENT_CANCELLED', (data: any) => {
       console.log("PAYMENT_CANCELLED", data)
+      Alert.alert("Transactions cancel!")
     });
 
     return () => {
@@ -25,6 +28,7 @@ export default function App() {
       telrpayEvents.removeAllListeners('Telr::PAYMENT_ERROR');
       telrpayEvents.removeAllListeners('Telr::PAYMENT_CANCELLED');
     }
+
   }, [])
 
   return (
@@ -86,22 +90,21 @@ export default function App() {
           }
 
           // open(options).then(setSuccessResponse)
-          // open(options, (response: any) => {
+          open(options, (response: any) => {
 
-          //   console.log("Success", response)
-          //   Alert.alert(response.message)
+            console.log("Success", response)
+            Alert.alert(response.message)
 
-          // }, (error: any) => {
+          }, (error: any) => {
 
-          //   console.log("Error", error)
-          //   Alert.alert(error.message)
+            console.log("Error", error)
+            Alert.alert(error.message)
 
-          // });
+          });
 
           // multiply(3, 5).then(setResult);
 
-          NativeModules.RnUlisSdk.open(options);
-
+          // NativeModules.RnUlisSdk.open(options);
 
         }}
       >

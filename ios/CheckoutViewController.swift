@@ -24,6 +24,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     var checkoutCallback : ((String, String) -> Void)?
     var screenCallback : ((ResponseBean) -> Void)?
     let message = UILabel()
+    var indicator: ProgressIndicator?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -48,6 +49,9 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     override func viewDidAppear(_ animated: Bool) {
         showProgressMessage(labelText: "Please wait order in process")
         startLoading()
+//        indicator = ProgressIndicator(inview:self.view,loadingViewColor: UIColor.gray, indicatorColor: UIColor.white, msg: "Please wait order in process")
+//        self.view.addSubview(indicator!)
+//        indicator!.start()
     }
     
     override func viewDidLoad() {
@@ -70,8 +74,10 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         print("End loading")
-        showProgressMessage(labelText: "")
+//        showProgressMessage(labelText: "")
+        message.text = ""
         stopLoading()
+//        indicator!.stop()
     }
     
     // Observe value
@@ -134,6 +140,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     
     func startLoading(){
         activityIndicator.center = self.view.center;
+//        activityIndicator.center = CGPointMake(screenWidth/2, screenHeight/2);
         activityIndicator.hidesWhenStopped = true;
         if #available(iOS 13.0, *) {
             activityIndicator.style = UIActivityIndicatorView.Style.large
@@ -167,4 +174,15 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
                 dismiss(animated: animated, completion: completion)
             }
         }
+    
+    
+    // Screen width.
+    public var screenWidth: CGFloat {
+        return UIScreen.main.bounds.width
+    }
+
+    // Screen height.
+    public var screenHeight: CGFloat {
+        return UIScreen.main.bounds.height
+    }
 }
