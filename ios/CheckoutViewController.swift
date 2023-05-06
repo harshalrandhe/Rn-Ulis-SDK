@@ -140,7 +140,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     
     func startLoading(){
         activityIndicator.center = self.view.center;
-//        activityIndicator.center = CGPointMake(screenWidth/2, screenHeight/2);
+        activityIndicator.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
         activityIndicator.hidesWhenStopped = true;
         if #available(iOS 13.0, *) {
             activityIndicator.style = UIActivityIndicatorView.Style.large

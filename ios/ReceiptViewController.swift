@@ -28,20 +28,20 @@ class ReceiptViewController: UIViewController {
     
     func showStatusLabel(labelText: String){
         statusLabel = UILabel(frame: CGRect(x: 20, y: 100, width: screenWidth-100, height: 21))
-//        statusLabel.center = CGPoint(x: 160, y: 185)
+        statusLabel.center = CGPoint(x: self.view.bounds.midX, y: 100)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
+        statusLabel.numberOfLines = 1
         statusLabel.textAlignment = .center
         statusLabel.text = labelText
-        
+        statusLabel.font = UIFont.boldSystemFont(ofSize: 18)
+
         self.view.addSubview(statusLabel)
     }
     
     
     func showOrderId(labelText: String){
         labelOrderId = UILabel(frame: CGRect(x: 30, y: 250, width: screenWidth-100, height: 21))
-//        labelOrderId.center = CGPoint(x: 160, y: 315)
         labelOrderId.translatesAutoresizingMaskIntoConstraints = false
         labelOrderId.lineBreakMode = .byWordWrapping
         labelOrderId.numberOfLines = 1
@@ -107,7 +107,7 @@ class ReceiptViewController: UIViewController {
     
     func showDoneButton(){
         btnDone = UIButton(frame: CGRect(x: 20, y: screenHeight-100, width: screenWidth-60, height: 50))
-        btnDone.center = CGPoint(x: 190, y: screenHeight-100)
+        btnDone.center = CGPoint(x: self.view.bounds.midX, y: screenHeight-100)
         btnDone.backgroundColor = .black
         btnDone.translatesAutoresizingMaskIntoConstraints = false
         btnDone.layer.cornerRadius = 5
@@ -117,24 +117,23 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(btnDone)
     }
     
-    func showDoneButton2(){
-        var btnDone = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 50))
-        btnDone.backgroundColor = .black
-        btnDone.translatesAutoresizingMaskIntoConstraints = false
-        btnDone.layer.cornerRadius = 5
-        btnDone.tag = 1
-        btnDone.setTitle("Button2", for: .normal)
-        btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
-        self.view.addSubview(btnDone)
-    }
-
+    /**
+     * Button
+     * On Press Done Button
+     */
     @objc func onPressDone(_ sender: UIButton) {
         
-//        let encodedData = try JSONEncoder().encode(responseBean)
-//        let jsonString = String(data: encodedData, encoding: .utf8)
-        print("button preesed!")
+        if(paymentStatus! == "AUTHORISED"){
+            RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_SUCCESS", body: responseBean!)
+        }else if(paymentStatus! == "CANCELLED"){
+            RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_CANCELLED", body: responseBean!)
+        }else if(paymentStatus! == "FAILED"){
+            RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_ERROR", body: responseBean!)
+        }else {
+            RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_SUCCESS", body: responseBean!)
+        }
         
-        RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_SUCCESS", body: responseBean!)
+        
         
         let mainWindow = UIApplication.shared.delegate?.window
         mainWindow?!.removeFromSuperview()
@@ -198,33 +197,62 @@ class ReceiptViewController: UIViewController {
                 self.showMerchantName(labelText: "Merchant: " + merchantName!)
             }
         }
+        
+//        let frameworkBundle = Bundle(for: ReceiptViewController.self)
+//        let imagePath = frameworkBundle.path(forResource: "error", ofType: "png")
+//        print("ImagePath>>>>>", imagePath)
+//        if imagePath != nil {
+//            failedImg = UIImage(contentsOfFile: imagePath!)
+//        }
 
-//        let failedImageData = try? Data(contentsOf: Bundle.main.url(forResource: "error", withExtension: "png")!)
-//        failedImg = UIImage(data: failedImageData!)
-//
+        
+        let bundle = Bundle(for: ReceiptViewController.self)
+        let failedImg = UIImage(named: "error", in: bundle, compatibleWith: nil)
+        
+//       let failedImageData = try? Data(contentsOf: Bundle.main.url(forResource: "error", withExtension: "png")!)
+//       if failedImageData != nil {
+//           self.failedImg = UIImage(data: failedImageData!)
+//        }
+
 //        let successImageData = try? Data(contentsOf: Bundle.main.url(forResource: "success", withExtension: "gif")!)
 //        successGif = UIImage.gifImageWithData(successImageData!)
 
-
-
+        ivStatus = UIImageView()
+        ivStatus.frame = CGRect(x: self.view.bounds.midX - 50, y: 130, width: 100, height: 100)
+        ivStatus.image = UIImage(named: "error")
+        ivStatus.backgroundColor = .lightGray
+        
+        merchantLogo = UIImageView()
+        merchantLogo.frame = CGRect(x: 30, y: 480, width: 60, height: 60)
+        merchantLogo.image = UIImage(named: "error")
+        merchantLogo.backgroundColor = .lightGray
+        
         if(paymentStatus! == "AUTHORISED"){
 //            ivStatus.image = successGif
             self.showStatusLabel(labelText: "Paid successfully!")
             self.statusLabel.textColor = .green
+            self.loadImageFromUrl(url: "https://media.istockphoto.com/id/692765510/vector/flat-square-check-mark-green-icon-button-tick-symbol.jpg?s=612x612&w=0&k=20&c=Mq_pmNet8JucIwtFGW139g6sxRMa9vxVaBxNzmJjrPQ=", imageView: self.ivStatus)
         }else if(paymentStatus! == "CANCELLED"){
-//            ivStatus.image = failedImg
+            ivStatus.image = failedImg
             self.showStatusLabel(labelText: "Payment is cancelled!")
             self.statusLabel.textColor = .red
+            self.loadImageFromUrl(url: "https://media.istockphoto.com/id/692775402/vector/flat-square-x-mark-red-icon-button-cross-symbol.jpg?s=612x612&w=0&k=20&c=6Dw07HJ527u2-LNWOh7g_87QLwMEyQI-wwHqzBJ1ibU=", imageView: self.ivStatus)
         }else {
             self.showStatusLabel(labelText: paymentStatus!)
             self.statusLabel.textColor = .orange
+            self.loadImageFromUrl(url: "https://static-00.iconduck.com/assets.00/pending-icon-512x504-9zrlrc78.png", imageView: self.ivStatus)
         }
         
-        self.loadImageFromUrl(url: "https://ulis.live:4010/static/images/fav_icon-1672899475914-616922036.png", imageView: self.merchantLogo)
+//        self.loadImageFromUrl(url: "https://ulis.live:4010/static/images/fav_icon-1672899475914-616922036.png", imageView: self.merchantLogo)
+        
+        
+        
+    
         
 //        DispatchQueue.main.async { self.setImagePlacehoder(imageView: self.merchantLogo) }
         
-        
+        self.view.addSubview(ivStatus)
+        self.view.addSubview(merchantLogo)
     }
 
     /**
