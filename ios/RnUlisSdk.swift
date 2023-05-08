@@ -52,6 +52,5 @@ class RnUlisSdk: RCTEventEmitter {
         print("Event sent >>", withName)
         print("Received Data: " ,body)
 
-        return
     }
 }

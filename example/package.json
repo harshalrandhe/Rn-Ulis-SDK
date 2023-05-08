@@ -1,6 +1,6 @@
 {
-  "name": "RnUlisSdkExample",
-  "version": "0.0.1",
+  "name": "rn-pay-sdk",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -18,5 +18,23 @@
     "@babel/runtime": "^7.20.0",
     "metro-react-native-babel-preset": "0.73.9",
     "babel-plugin-module-resolver": "^4.1.0"
-  }
+  },
+  "description": "Our mission is to build connections that remove fragmentation in the e-commerce ecosystem. We make these connections to enable our customers to go cashless, digitizing the way that they accept payments",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshalrandhe/Rn-Ulis-SDK.git"
+  },
+  "keywords": [
+    "React",
+    "Native",
+    "Android",
+    "Ios"
+  ],
+  "author": "harshalrandhe <harshal.r@ulistechnology.com> (https://github.com/harshalrandhe)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/harshalrandhe/Rn-Ulis-SDK/issues"
+  },
+  "homepage": "https://github.com/harshalrandhe/Rn-Ulis-SDK#readme"
 }
