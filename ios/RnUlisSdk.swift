@@ -36,6 +36,7 @@ class RnUlisSdk: RCTEventEmitter {
             self.window = UIWindow(frame: UIScreen.main.bounds)
             let orderVC = OrderViewController()
             orderVC.orderAction = "create"
+            orderVC.option = option as AnyObject
             self.discoverVC = orderVC as UIViewController
             self.navigationController = UINavigationController(rootViewController: self.discoverVC)
             self.navigationController.navigationBar.isTranslucent = false
@@ -46,8 +47,6 @@ class RnUlisSdk: RCTEventEmitter {
     }
     
     func sendBackEvent(withName: String, body: ResponseBean) -> Void {
-        
-        
         sendEvent(withName: withName, body: body.data)
         print("Event sent >>", withName)
         print("Received Data: " ,body)

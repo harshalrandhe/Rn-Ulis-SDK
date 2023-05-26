@@ -141,9 +141,16 @@ public class RnUlisSdkModule extends ReactContextBaseJavaModule
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(eventName, params);
-    // if (this.promise != null) {
-    // Log.e(">>>paymentData", new Gson().toJson(params));
-    // this.promise.resolve(params);
-    // }
   }
+
+  @ReactMethod
+  public void addListener(String eventName) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
+  @ReactMethod
+  public void removeListeners(int count) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
 }

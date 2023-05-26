@@ -9,14 +9,14 @@ import UIKit
 
 class ApiManager: NSObject {
     
-    static func BuildRequest(url: String) -> NSMutableURLRequest {
+    static func BuildRequest(url: String, parameters: [String: Any]) -> NSMutableURLRequest {
         let request = NSMutableURLRequest(url: NSURL(string: url)! as URL)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("074E1F9E8KF87HJDF8DF09DDD3A377760", forHTTPHeaderField: "xusername")
         request.addValue("54607074E1F9DE8KF87HJDF8DF09DDD", forHTTPHeaderField: "xpassword")
-        request.addValue("live-FP0RSX366", forHTTPHeaderField: "merchant_key")
-        request.addValue("sec-FB0VLA3E8", forHTTPHeaderField: "merchant_secret")
+        request.addValue(parameters["merchantKey"] as! String, forHTTPHeaderField: "merchant_key")
+        request.addValue(parameters["merchantSecret"] as! String, forHTTPHeaderField: "merchant_secret")
         request.addValue("49.36.34.70", forHTTPHeaderField: "ip")
       return request
     }
@@ -24,7 +24,7 @@ class ApiManager: NSObject {
     static func creatOrderApiRequest(url: String, parameters:[String: Any], completion: @escaping(ResponseBean)-> Void) {
             let session = URLSession.shared
             // Build API Request
-            let request = BuildRequest(url: url)
+        let request = BuildRequest(url: url, parameters: parameters["data"] as! [String : Any])
         
             do{
                 request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions())
@@ -86,17 +86,21 @@ class ApiManager: NSObject {
             }catch _ {
                 print ("Oops something happened buddy")
             }
-            
         }
     
     
     static func checkOrderStatusApiRequest(url: String, parameters:[String: Any], completion: @escaping(ResponseBean)-> Void) {
             let session = URLSession.shared
             // Build API Request
-            let request = BuildRequest(url: url)
+        let request = BuildRequest(url: url, parameters: parameters)
+        
+        let parameters2: [String: Any] = [
+            "order_id": parameters["order_id"] as! String,
+            "token": parameters["token"] as! String
+        ]
         
             do{
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions())
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters2, options: JSONSerialization.WritingOptions())
                 let task = session.dataTask(with: request as URLRequest as URLRequest, completionHandler: {(data, response, error) in
                     var statusCode = 100
                     if let response = response {

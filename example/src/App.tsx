@@ -73,7 +73,7 @@ export default function App() {
               province: "Maharastra"
             },
             order_details: {
-              order_id: "ORD168659989754",
+              order_id: "ORD168659989907",
               amount: "366.45",
               currency: "AED",
               description: "TShirt",
@@ -85,7 +85,7 @@ export default function App() {
               failure: "https://ulis.live/failed.php"
             },
             transaction: {
-              "class": "ECOM"
+              "class": "ecom"
             }
           }
 

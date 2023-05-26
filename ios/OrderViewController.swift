@@ -20,15 +20,75 @@ class OrderViewController: UIViewController {
     var orderAction: String = ""
     var mOrderId: String = ""
     var mToken: String = ""
+    var mMerchantKey: String = ""
+    var mMerchantSecret: String = ""
     var loderWarningGif: UIImage!
+    var labelPoweredBy = UILabel()
     var message = UILabel()
+    var btnDone = UIButton()
+    var mResponseBean: ResponseBean!
+    var option: AnyObject!
+    
+    
+    func showTransactionId(){
+        labelPoweredBy = UILabel(frame: CGRect(x: 0, y: 150, width: screenWidth-100, height: 21))
+        labelPoweredBy.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.maxY - 50)
+        labelPoweredBy.translatesAutoresizingMaskIntoConstraints = false
+        labelPoweredBy.lineBreakMode = .byWordWrapping
+        labelPoweredBy.numberOfLines = 1
+        labelPoweredBy.textAlignment = .center
+        labelPoweredBy.text = "Powered By ULIS Technology."
+        labelPoweredBy.font = UIFont.boldSystemFont(ofSize: 14)
+        self.view.addSubview(labelPoweredBy)
+    }
+
+    /**
+     * Progress message
+     */
+    func showProgressMessage(){
+        message = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth-100, height: 21))
+        message.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY + 50)
+        message.translatesAutoresizingMaskIntoConstraints = false
+        message.lineBreakMode = .byWordWrapping
+        message.numberOfLines = 2
+        message.textAlignment = .center
+        self.view.addSubview(message)
+    }
+    
+    /**
+     * Start Screen Loader
+     */
+    func startLoading(){
+        activityIndicator.center = self.view.center;
+        activityIndicator.hidesWhenStopped = true;
+        if #available(iOS 13.0, *) {
+            activityIndicator.style = UIActivityIndicatorView.Style.large
+        } else {
+            // Fallback on earlier versions
+        };
+        view.addSubview(activityIndicator);
+
+        activityIndicator.startAnimating();
+        UIApplication.shared.beginIgnoringInteractionEvents();
+    }
+
+    /**
+     * Stop Screen Loader
+     */
+    func stopLoading(){
+
+        activityIndicator.stopAnimating();
+        UIApplication.shared.endIgnoringInteractionEvents();
+
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        showProgressMessage(labelText: "Please wait order in process")
+        showProgressMessage()
+        message.text = "Please wait order in process"
         startLoading()
         
         /**
@@ -38,7 +98,7 @@ class OrderViewController: UIViewController {
         checkoutCallback = { order_id, token in
             //Do what you want in here!
             print("callback -->")
-            
+            self.message.text = "Checking payment status"
             // API Call
             self.checkOrderStatusAPICall()
         }
@@ -65,9 +125,11 @@ class OrderViewController: UIViewController {
         super.viewDidLoad()
         title = ""
         
-        view = UIView()
-        view.backgroundColor = .white
-        view.addSubview(message)
+//        view = UIView()
+        self.view.backgroundColor = .white // Screen bg color
+        self.view.addSubview(message)
+        
+        self.showTransactionId()
         
         if(self.orderAction == "create"){
             print("Create order........")
@@ -75,7 +137,7 @@ class OrderViewController: UIViewController {
             self.createOrderAPICall()
         }else{
             print("Check order........")
-            showProgressMessage(labelText: "Please wait transaction in process")
+            self.message.text = "Please wait transaction in process"
             // API Call
             self.checkOrderStatusAPICall()
         }
@@ -109,7 +171,7 @@ class OrderViewController: UIViewController {
 //                "mobile_no": "8909890986",
 //                "amount": "366.45",
 //                "currency": "AED",
-//                "status": "PENDING",
+//                "status": "AUTHORISED",
 //                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status",
 //                "success_url": "https://ulis.live/status.php",
 //                "failed_url": "https://ulis.live/failed.php",
@@ -138,45 +200,69 @@ class OrderViewController: UIViewController {
     func createOrderAPICall(){
         
         let url = "https://ulis.live:4014/api/v1/orders/create"
-        let parameters: [String: Any] = [
-            "data": ["customer_details": [
-                "name": "My Store",
-                "email": "golu.r@ulistechnology.com",
-                "mobile": "8909890986"
-            ],
-            "billing_details": [
-                "address_line1": "Wardhman nagar ,nagpur",
-                "address_line2": "",
-                "country": "India",
-                "city": "Nagpur",
-                "pin": "440001",
-                "province": "Maharastra"
-            ],
-            "shipping_details": [
-                "address_line1": "Wardhman nagar ,nagpur",
-                "address_line2": "",
-                "country": "India",
-                "city": "Nagpur",
-                "pin": "440001",
-                "province": "Maharastra"
-            ],
-            "order_details": [
-                "order_id": randomStringWithLength(len: 7),
-                "amount": "366.45",
-                "currency": "AED",
-                "description": "TShirt",
-                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status"
-            ],
-            "mobile_sdk": "1",
-            "merchant_urls": [
-                "success": "https://ulis.live/status.php",
-                "cancel": "https://ulis.live/cancel.php",
-                "failure": "https://ulis.live/failed.php"
-            ],
-            "transaction": ["class": "ECOM"]
-            
-            ]
-        ]
+//        let parameters: [String: Any] = [
+//            "data": ["customer_details": [
+//                "name": "My Store",
+//                "email": "golu.r@ulistechnology.com",
+//                "mobile": "8909890986"
+//            ],
+//            "billing_details": [
+//                "address_line1": "Wardhman nagar ,nagpur",
+//                "address_line2": "",
+//                "country": "India",
+//                "city": "Nagpur",
+//                "pin": "440001",
+//                "province": "Maharastra"
+//            ],
+//            "shipping_details": [
+//                "address_line1": "Wardhman nagar ,nagpur",
+//                "address_line2": "",
+//                "country": "India",
+//                "city": "Nagpur",
+//                "pin": "440001",
+//                "province": "Maharastra"
+//            ],
+//            "order_details": [
+//                "order_id": randomStringWithLength(len: 7),
+//                "amount": "366.45",
+//                "currency": "AED",
+//                "description": "TShirt",
+//                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status"
+//            ],
+//            "mobile_sdk": "1",
+//            "merchant_urls": [
+//                "success": "https://ulis.live/status.php",
+//                "cancel": "https://ulis.live/cancel.php",
+//                "failure": "https://ulis.live/failed.php"
+//            ],
+//            "transaction": ["class": "ECOM"]
+//
+//            ]
+//        ]
+        
+        let optionsData: [String: Any] = option as! [String : Any]
+        var parameters: [String : Any] = [:]
+        var data: [String : Any] = [:]
+        
+        data["env"] = optionsData["env"]!
+        data["merchantKey"] = optionsData["merchantKey"]!
+        data["merchantSecret"] = optionsData["merchantSecret"]!
+        data["mobile_sdk"] = 1
+        data["customer_details"] = optionsData["customer_details"]! as! [String: Any]
+        data["productDetails"] = optionsData["productDetails"]! as! [String: Any]
+        data["billing_details"] = optionsData["billing_details"]! as! [String: Any]
+        data["shipping_details"] = optionsData["shipping_details"]! as! [String: Any]
+        data["order_details"] = optionsData["order_details"]! as! [String: Any]
+        data["merchant_urls"] = optionsData["merchant_urls"]! as! [String: Any]
+        data["transaction"] = optionsData["transaction"]! as! [String: Any]
+        
+        parameters["data"] = data
+        
+        mMerchantKey = optionsData["merchantKey"]! as! String
+        mMerchantSecret = optionsData["merchantSecret"]! as! String
+        
+        print("optionsData: -> " , optionsData)
+        print("Parameters: -> " , parameters)
         
         ApiManager.creatOrderApiRequest(url: url, parameters: parameters, completion: apiCallback)
     }
@@ -220,6 +306,8 @@ class OrderViewController: UIViewController {
                             discoverVC.order_id = order_id!
                             discoverVC.token = token!
                             discoverVC.paymentLink = payment_link!
+                            discoverVC.merchantKey = self.mMerchantKey
+                            discoverVC.merchantSecret = self.mMerchantSecret
                             discoverVC.successUrl = successUrl
                             discoverVC.cancelUrl = cancelUrl
                             discoverVC.failureUrl = failuerUrl
@@ -234,39 +322,94 @@ class OrderViewController: UIViewController {
                     
                     // Update status label an image
                     DispatchQueue.main.async {
-//                        self.loaderImageView.image = self.loderWarningGif
-//                        self.statusLabel.text = message!
-                        self.showProgressMessage(labelText: message!)
+                        self.message.text = message!
                     }
                     
                     // Post result back
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
-                        let postResponse = ResponseBean()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                        
+                        var postResponse = ResponseBean()
                         postResponse.message = message!
                         postResponse.status = response.status
-                        self.performSegueToReturnBack(response: postResponse)
+                        postResponse.data = Response
+                        
+                        RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_ERROR", body: postResponse)
+                        
+                        let mainWindow = UIApplication.shared.delegate?.window
+                        mainWindow?!.removeFromSuperview()
+                        mainWindow??.makeKeyAndVisible()
+                        self.view.removeFromSuperview()
                     })
-                    
+
                 }
-                
             }
             
         }else{
             // Update status label an image
             DispatchQueue.main.async {
-//                self.loaderImageView.image = self.loderWarningGif
-//                self.statusLabel.text = response.message
-                self.showProgressMessage(labelText: response.message)
+                self.message.text = response.message
+                self.showDoneButton(response: response)
             }
             
             // Post result back
             DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
-                let postResponse = ResponseBean()
-                postResponse.message = response.message
-                postResponse.status = response.status
-                self.performSegueToReturnBack(response: postResponse)
+                
+                let responseData: [String: Any] = [
+                    "status": response.status,
+                    "message": response.message,
+                ]
+                
+                self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
             })
         }
+    }
+    
+    
+    func showDoneButton(response : ResponseBean){
+        
+        self.mResponseBean = response
+        self.btnDone = UIButton(frame: CGRect(x: 20, y: screenHeight-100, width: screenWidth-60, height: 50))
+        self.btnDone.center = CGPoint(x: self.view.bounds.midX, y: screenHeight-100)
+        self.btnDone.backgroundColor = .white
+        self.btnDone.translatesAutoresizingMaskIntoConstraints = false
+        self.btnDone.layer.cornerRadius = 5
+        self.btnDone.tag = 1
+        self.btnDone.layer.borderWidth = 1
+        self.btnDone.setTitle("Done", for: .normal)
+        self.btnDone.setTitleColor(UIColor.black, for: .normal)
+        self.btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
+        self.view.addSubview(btnDone)
+    }
+    
+    /**
+     * Button
+     * On Press Done Button
+     */
+    @objc func onPressDone(_ sender: UIButton) {
+        
+        let responseData: [String: Any] = [
+            "status": self.mResponseBean!.status,
+            "message": self.mResponseBean!.message,
+        ]
+        
+        self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
+    }
+    
+    /**
+     * Post Result To Merchant
+     */
+    func postResult(event: String, response: [String: Any]){
+        let postResponse = ResponseBean()
+        postResponse.message = ""
+        postResponse.status = 0
+        postResponse.data = response
+        
+        RnUlisSdk.shared!.sendBackEvent(withName: event, body: postResponse)
+        
+        let mainWindow = UIApplication.shared.delegate?.window
+        mainWindow?!.removeFromSuperview()
+        mainWindow??.makeKeyAndVisible()
+        self.view.removeFromSuperview()
     }
     
     /**
@@ -289,12 +432,19 @@ class OrderViewController: UIViewController {
      */
     @objc func checkOrderStatusAPICall(){
         
+//        let optionsData: [String: Any] = option as! [String : Any]
+        
+//        data["merchantKey"] = optionsData["merchantKey"]!
+//        data["merchantSecret"] = optionsData["merchantSecret"]!
         
         let url = "https://ulis.live:4014/api/v1/orders/details"
         let parameters: [String: Any] = [
                 "order_id": mOrderId,
-                "token": mToken
+                "token": mToken,
+                "merchantKey": mMerchantKey,
+                "merchantSecret": mMerchantSecret
         ]
+        
         ApiManager.checkOrderStatusApiRequest(url: url, parameters: parameters, completion: { response in
             
             // Stop loading indicator
@@ -322,21 +472,6 @@ class OrderViewController: UIViewController {
                                 if(status! == "AUTHORISED" || status! == "CANCELLED"){
                                     
                                     self.timer.invalidate()
-                                    
-                                    // Post result back
-//                                    DispatchQueue.main.async {
-//
-//                                        let postResponse = ResponseBean()
-//                                        postResponse.message = response.message
-//                                        postResponse.status = response.status
-//                                        postResponse.data = Data
-//
-//                                        self.dismiss(animated: true, completion: nil)
-//
-//                                        let RVController = self.storyboard?.instantiateViewController(withIdentifier: "RVController") as! ReceiptViewController;
-//                                        RVController.responseBean = postResponse
-//                                        self.navigationController?.pushViewController(RVController, animated: true)
-//                                    }
                                     
                                     DispatchQueue.main.async {
                                         let postResponse = ResponseBean()
@@ -407,52 +542,7 @@ class OrderViewController: UIViewController {
         return "ORD" + randomString as NSString
     }
     
-    /**
-     * Progress message
-     */
-    func showProgressMessage(labelText: String){
-        
-        message.center = self.view.center;
-        message.translatesAutoresizingMaskIntoConstraints = false
-        message.lineBreakMode = .byWordWrapping
-        message.numberOfLines = 0
-        message.textAlignment = .center
-        message.text = labelText
-        
-        let maxSize = CGSize(width: screenWidth/2, height: 20)
-        message.sizeThatFits(maxSize)
-        
-        message.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        message.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        message.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
     
-    /**
-     * Start Screen Loader
-     */
-    func startLoading(){
-        activityIndicator.center = self.view.center;
-        activityIndicator.hidesWhenStopped = true;
-        if #available(iOS 13.0, *) {
-            activityIndicator.style = UIActivityIndicatorView.Style.large
-        } else {
-            // Fallback on earlier versions
-        };
-        view.addSubview(activityIndicator);
-
-        activityIndicator.startAnimating();
-        UIApplication.shared.beginIgnoringInteractionEvents();
-    }
-
-    /**
-     * Stop Screen Loader
-     */
-    func stopLoading(){
-
-        activityIndicator.stopAnimating();
-        UIApplication.shared.endIgnoringInteractionEvents();
-
-    }
     
     // Screen width.
     public var screenWidth: CGFloat {

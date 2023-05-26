@@ -21,6 +21,8 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     var successUrl: String = ""
     var cancelUrl: String = ""
     var failureUrl: String = ""
+    var merchantKey: String = ""
+    var merchantSecret: String = ""
     var checkoutCallback : ((String, String) -> Void)?
     var screenCallback : ((ResponseBean) -> Void)?
     let message = UILabel()
@@ -47,7 +49,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        showProgressMessage(labelText: "Please wait order in process")
+        showProgressMessage(labelText: "Wait loading checkout page")
         startLoading()
 //        indicator = ProgressIndicator(inview:self.view,loadingViewColor: UIColor.gray, indicatorColor: UIColor.white, msg: "Please wait order in process")
 //        self.view.addSubview(indicator!)
@@ -107,6 +109,8 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
         orderVC.orderAction = "check"
         orderVC.mOrderId = self.order_id
         orderVC.mToken = self.token
+        orderVC.mMerchantKey = self.merchantKey
+        orderVC.mMerchantSecret = self.merchantSecret
         let discoverVC = orderVC as UIViewController
         let navigationController = UINavigationController(rootViewController: discoverVC)
         navigationController.navigationBar.isTranslucent = false
@@ -140,7 +144,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     
     func startLoading(){
         activityIndicator.center = self.view.center;
-        activityIndicator.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
+        activityIndicator.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY + 44)
         activityIndicator.hidesWhenStopped = true;
         if #available(iOS 13.0, *) {
             activityIndicator.style = UIActivityIndicatorView.Style.large
@@ -154,10 +158,8 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     }
 
     func stopLoading(){
-
         activityIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
-
     }
     
     func dismissMe(animated: Bool, completion: (()->())?) {
