@@ -31,6 +31,12 @@ export default function App() {
 
   }, [])
 
+  const generateOrderId = () => {
+    let numbers = "ORD" + Math.floor(10000000 + Math.random() * 89999999)
+    // console.log("ID: ", numbers)
+    return numbers;
+  }
+
   return (
 
     <View style={styles.container}>
@@ -73,7 +79,7 @@ export default function App() {
               province: "Maharastra"
             },
             order_details: {
-              order_id: "ORD168659989907",
+              order_id: generateOrderId(),
               amount: "366.45",
               currency: "AED",
               description: "TShirt",
@@ -101,8 +107,6 @@ export default function App() {
             Alert.alert(error.message)
 
           });
-
-          // multiply(3, 5).then(setResult);
 
           // NativeModules.RnUlisSdk.open(options);
 

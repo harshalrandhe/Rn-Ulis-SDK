@@ -31,12 +31,11 @@ class OrderViewController: UIViewController {
     
     
     func showTransactionId(){
-        labelPoweredBy = UILabel(frame: CGRect(x: 0, y: 150, width: screenWidth-100, height: 21))
-        labelPoweredBy.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.maxY - 50)
-        labelPoweredBy.translatesAutoresizingMaskIntoConstraints = false
+        labelPoweredBy = UILabel()
+        labelPoweredBy.frame = CGRect(x: 50, y: self.view.bounds.maxY - 50, width: screenWidth-100, height: 21)
         labelPoweredBy.lineBreakMode = .byWordWrapping
         labelPoweredBy.numberOfLines = 1
-        labelPoweredBy.textAlignment = .center
+        labelPoweredBy.textAlignment = NSTextAlignment.center
         labelPoweredBy.text = "Powered By ULIS Technology."
         labelPoweredBy.font = UIFont.boldSystemFont(ofSize: 14)
         self.view.addSubview(labelPoweredBy)
@@ -46,13 +45,25 @@ class OrderViewController: UIViewController {
      * Progress message
      */
     func showProgressMessage(){
-        message = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth-100, height: 21))
-        message.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY + 50)
-        message.translatesAutoresizingMaskIntoConstraints = false
-        message.lineBreakMode = .byWordWrapping
-        message.numberOfLines = 2
-        message.textAlignment = .center
+        message = UILabel()
+        message.frame = CGRect(x: 50, y: self.view.bounds.midY, width: screenWidth-100, height: 21)
+        message.textColor = UIColor.black
+        message.textAlignment = NSTextAlignment.center
         self.view.addSubview(message)
+    }
+    
+    func showDoneButton(response : ResponseBean){
+        self.mResponseBean = response
+        self.btnDone = UIButton()
+        self.btnDone.frame = CGRect(x: 50, y: self.view.bounds.maxY - 250, width: screenWidth-100, height: 40)
+        self.btnDone.backgroundColor = .white
+        self.btnDone.layer.cornerRadius = 5
+        self.btnDone.tag = 1
+        self.btnDone.layer.borderWidth = 1
+        self.btnDone.setTitle("Done", for: .normal)
+        self.btnDone.setTitleColor(UIColor.black, for: .normal)
+        self.btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
+        self.view.addSubview(btnDone)
     }
     
     /**
@@ -352,34 +363,18 @@ class OrderViewController: UIViewController {
             }
             
             // Post result back
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
-                
-                let responseData: [String: Any] = [
-                    "status": response.status,
-                    "message": response.message,
-                ]
-                
-                self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
-            })
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+//
+//                let responseData: [String: Any] = [
+//                    "status": response.status,
+//                    "message": response.message,
+//                ]
+//
+//                self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
+//            })
         }
     }
     
-    
-    func showDoneButton(response : ResponseBean){
-        
-        self.mResponseBean = response
-        self.btnDone = UIButton(frame: CGRect(x: 20, y: screenHeight-100, width: screenWidth-60, height: 50))
-        self.btnDone.center = CGPoint(x: self.view.bounds.midX, y: screenHeight-100)
-        self.btnDone.backgroundColor = .white
-        self.btnDone.translatesAutoresizingMaskIntoConstraints = false
-        self.btnDone.layer.cornerRadius = 5
-        self.btnDone.tag = 1
-        self.btnDone.layer.borderWidth = 1
-        self.btnDone.setTitle("Done", for: .normal)
-        self.btnDone.setTitleColor(UIColor.black, for: .normal)
-        self.btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
-        self.view.addSubview(btnDone)
-    }
     
     /**
      * Button
