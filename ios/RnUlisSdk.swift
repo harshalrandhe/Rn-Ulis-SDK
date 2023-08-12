@@ -15,12 +15,6 @@ class RnUlisSdk: RCTEventEmitter {
         RnUlisSdk.shared = self
     }
     
-    @objc(multiply:withB:withResolver:withRejecter:)
-    func multiply(a: Float, b: Float, resolve: RCTPromiseResolveBlock,reject: RCTPromiseRejectBlock) -> Void
-    {
-        resolve(a*b)
-    }
-    
      override func supportedEvents() -> [String] {
        ["Telr::PAYMENT_SUCCESS", "Telr::PAYMENT_ERROR", "Telr::PAYMENT_CANCELLED"]      // etc.
      }

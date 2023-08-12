@@ -67,7 +67,8 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-  implementation files(':telrpaysdk')
+//  implementation files(':telrpaysdk')
+  implementation files('libs/telrpaysdk.aar')
   implementation 'com.android.support:design:28.0.0'
   implementation 'androidx.databinding:viewbinding:7.1.2'
   implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

@@ -5,9 +5,9 @@
 
 @interface RCT_EXTERN_MODULE(RnUlisSdk, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
-                withResolver:(RCTPromiseResolveBlock)resolve
-                withRejecter:(RCTPromiseRejectBlock)reject)
+// RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
+//                 withResolver:(RCTPromiseResolveBlock)resolve
+//                 withRejecter:(RCTPromiseRejectBlock)reject)
 
 RCT_EXTERN_METHOD(open:(NSDictionary *)options)
 

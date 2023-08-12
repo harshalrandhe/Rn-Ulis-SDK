@@ -17,9 +17,6 @@ const RnUlisSdk = NativeModules.RnUlisSdk
     }
   );
 
-// export function multiply(a: number, b: number): Promise<number> {
-// return RnUlisSdk.multiply(a, b);
-// }
 
 
 const telrpayEvents = new NativeEventEmitter(NativeModules.RnUlisSdk);

@@ -87,10 +87,8 @@ class OrderViewController: UIViewController {
      * Stop Screen Loader
      */
     func stopLoading(){
-
         activityIndicator.stopAnimating();
         UIApplication.shared.endIgnoringInteractionEvents();
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,12 +134,11 @@ class OrderViewController: UIViewController {
         super.viewDidLoad()
         title = ""
         
-//        view = UIView()
         self.view.backgroundColor = .white // Screen bg color
         self.view.addSubview(message)
         
         self.showTransactionId()
-        
+
         if(self.orderAction == "create"){
             print("Create order........")
             // API Call
@@ -260,7 +257,7 @@ class OrderViewController: UIViewController {
         data["merchantSecret"] = optionsData["merchantSecret"]!
         data["mobile_sdk"] = 1
         data["customer_details"] = optionsData["customer_details"]! as! [String: Any]
-        data["productDetails"] = optionsData["productDetails"]! as! [String: Any]
+       // data["productDetails"] = optionsData["productDetails"]! as! [String: Any]
         data["billing_details"] = optionsData["billing_details"]! as! [String: Any]
         data["shipping_details"] = optionsData["shipping_details"]! as! [String: Any]
         data["order_details"] = optionsData["order_details"]! as! [String: Any]

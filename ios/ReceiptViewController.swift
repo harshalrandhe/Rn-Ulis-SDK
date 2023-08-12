@@ -34,9 +34,10 @@ class ReceiptViewController: UIViewController {
     }
     
     func showStatusLabel(labelText: String){
-        statusLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth-100, height: 21))
+        statusLabel = UILabel()
         statusLabel.center = CGPoint(x: self.view.bounds.midX, y: 200)
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.frame = CGRect(x: 0, y: 0, width: screenWidth-100, height: 21)
+//        statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.lineBreakMode = .byWordWrapping
         statusLabel.numberOfLines = 1
         statusLabel.textAlignment = .center
@@ -48,8 +49,9 @@ class ReceiptViewController: UIViewController {
     
     
     func showOrderId(labelText: String){
-        labelOrderId = UILabel(frame: CGRect(x: 30, y: 300, width: screenWidth-100, height: 21))
-        labelOrderId.translatesAutoresizingMaskIntoConstraints = false
+        labelOrderId = UILabel()
+        labelOrderId.frame = CGRect(x: 30, y: 300, width: screenWidth-100, height: 21)
+//        labelOrderId.translatesAutoresizingMaskIntoConstraints = false
         labelOrderId.lineBreakMode = .byWordWrapping
         labelOrderId.numberOfLines = 1
         labelOrderId.textAlignment = .left
@@ -60,9 +62,10 @@ class ReceiptViewController: UIViewController {
     
     
     func showMobileNo(labelText: String){
-        labelMobileNumber = UILabel(frame: CGRect(x: 30, y: 330, width: screenWidth-100, height: 21))
+        labelMobileNumber = UILabel()
+        labelMobileNumber.frame = CGRect(x: 30, y: 330, width: screenWidth-100, height: 21)
 //        labelMobileNumber.center = CGPoint(x: 160, y: 305)
-        labelMobileNumber.translatesAutoresizingMaskIntoConstraints = false
+//        labelMobileNumber.translatesAutoresizingMaskIntoConstraints = false
         labelMobileNumber.lineBreakMode = .byWordWrapping
         labelMobileNumber.numberOfLines = 0
         labelMobileNumber.textAlignment = .left
@@ -72,9 +75,10 @@ class ReceiptViewController: UIViewController {
     }
     
     func showPrice(labelText: String){
-        labelPrice = UILabel(frame: CGRect(x: 30, y: 360, width: screenWidth-100, height: 21))
+        labelPrice = UILabel()
+        labelPrice.frame = CGRect(x: 30, y: 360, width: screenWidth-100, height: 21)
 //        labelPrice.center = CGPoint(x: 160, y: 295)
-        labelPrice.translatesAutoresizingMaskIntoConstraints = false
+//        labelPrice.translatesAutoresizingMaskIntoConstraints = false
         labelPrice.lineBreakMode = .byWordWrapping
         labelPrice.numberOfLines = 0
         labelPrice.textAlignment = .left
@@ -84,9 +88,10 @@ class ReceiptViewController: UIViewController {
     }
     
     func showMerchantName(labelText: String){
-        labelMerchantName = UILabel(frame: CGRect(x: 30, y: 390, width: screenWidth-100, height: 21))
+        labelMerchantName = UILabel()
+        labelMerchantName.frame = CGRect(x: 30, y: 390, width: screenWidth-100, height: 21)
 //        labelMerchantName.center = CGPoint(x: 160, y: 285)
-        labelMerchantName.translatesAutoresizingMaskIntoConstraints = false
+//        labelMerchantName.translatesAutoresizingMaskIntoConstraints = false
         labelMerchantName.lineBreakMode = .byWordWrapping
         labelMerchantName.numberOfLines = 0
         labelMerchantName.textAlignment = .left
@@ -96,9 +101,10 @@ class ReceiptViewController: UIViewController {
     }
     
     func showTransactionId(labelText: String){
-        labelTransactionId = UILabel(frame: CGRect(x: 30, y: 420, width: screenWidth-100, height: 21))
+        labelTransactionId = UILabel()
+        labelTransactionId.frame = CGRect(x: 30, y: 420, width: screenWidth-100, height: 21)
 //        labelTransactionId.center = CGPoint(x: 160, y: 325)
-        labelTransactionId.translatesAutoresizingMaskIntoConstraints = false
+//        labelTransactionId.translatesAutoresizingMaskIntoConstraints = false
         labelTransactionId.lineBreakMode = .byWordWrapping
         labelTransactionId.numberOfLines = 1
         labelTransactionId.textAlignment = .left
@@ -120,17 +126,15 @@ class ReceiptViewController: UIViewController {
     }
     
     func showDoneButton(){
-        btnDone = UIButton(frame: CGRect(x: 20, y: screenHeight-100, width: screenWidth-60, height: 50))
-        btnDone.center = CGPoint(x: self.view.bounds.midX, y: screenHeight-100)
-        btnDone.backgroundColor = .white
-        btnDone.translatesAutoresizingMaskIntoConstraints = false
-        btnDone.layer.cornerRadius = 5
-        btnDone.tag = 1
-        btnDone.layer.borderWidth = 1
-        btnDone.setTitleColor(UIColor.black, for: .normal)
-        btnDone.setTitle("Done", for: .normal)
-        btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
-        btnDone.layer.borderColor = UIColor.lightGray.cgColor
+        self.btnDone = UIButton()
+        self.btnDone.frame = CGRect(x: 50, y: self.view.bounds.maxY - 250, width: screenWidth-100, height: 40)
+        self.btnDone.backgroundColor = .white
+        self.btnDone.layer.cornerRadius = 5
+        self.btnDone.tag = 1
+        self.btnDone.layer.borderWidth = 1
+        self.btnDone.setTitle("Done", for: .normal)
+        self.btnDone.setTitleColor(UIColor.black, for: .normal)
+        self.btnDone.addTarget(self, action:#selector(self.onPressDone(_:)), for: .touchUpInside)
         self.view.addSubview(btnDone)
     }
     
