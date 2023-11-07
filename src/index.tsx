@@ -29,7 +29,7 @@ const removeSubscriptions = () => {
 
 export function open(options: any, successCallback: any, errorCallback: any): Promise<any> {
 
-  console.log(">>>>>>>>>", NativeModules.RnUlisSdk)
+  // console.log(">>>>>>>>>", NativeModules.RnUlisSdk)
 
   return new Promise(function (resolve, reject) {
 

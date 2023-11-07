@@ -24,11 +24,6 @@
 		6BB2248D29FF7DB600A70586 /* warning.gif in Sources */ = {isa = PBXBuildFile; fileRef = 6BB2247D29FF770000A70586 /* warning.gif */; };
 		6BB87FAD2A02483500998526 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB87FAC2A02483500998526 /* UIApplication.swift */; };
 		6BC3308F2A062B4600D63A6E /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3308E2A062B4600D63A6E /* ProgressIndicator.swift */; };
-		6BC330912A06787A00D63A6E /* money_flow.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6BB2248529FF7D7700A70586 /* money_flow.gif */; settings = {ASSET_TAGS = (New, ); }; };
-		6BC330922A06787A00D63A6E /* store.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB2248729FF7D7700A70586 /* store.png */; settings = {ASSET_TAGS = (New, ); }; };
-		6BC330942A06787A00D63A6E /* warning.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6BB2247D29FF770000A70586 /* warning.gif */; settings = {ASSET_TAGS = (New, ); }; };
-		6BC330962A0678D500D63A6E /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC330952A0678D500D63A6E /* error.png */; settings = {ASSET_TAGS = (New, ); }; };
-		6BC330982A0678EF00D63A6E /* success.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6BC330972A0678EF00D63A6E /* success.gif */; settings = {ASSET_TAGS = (New, ); }; };
 		6BFFCBBD2A01116F00BCF2FC /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFFCBBC2A01116F00BCF2FC /* LabelView.swift */; };
 		6BFFCBBF2A0121D300BCF2FC /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFFCBBE2A0121D300BCF2FC /* UIWindow.swift */; };
 		F4FF95D7245B92E800C19C63 /* RnUlisSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* RnUlisSdk.swift */; };
@@ -183,11 +178,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BC330912A06787A00D63A6E /* money_flow.gif in Resources */,
-				6BC330922A06787A00D63A6E /* store.png in Resources */,
-				6BC330962A0678D500D63A6E /* error.png in Resources */,
-				6BC330942A06787A00D63A6E /* warning.gif in Resources */,
-				6BC330982A0678EF00D63A6E /* success.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

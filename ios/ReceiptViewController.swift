@@ -28,18 +28,24 @@ class ReceiptViewController: UIViewController {
     
     var responseBean: ResponseBean!
     
+    /**
+     *  Layout
+     *  Header layout
+     */
     func showHeaderView(){
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 250))
         self.view.addSubview(headerView)
     }
     
+    /**
+     *  Label
+     *  Transaction Status
+     */
     func showStatusLabel(labelText: String){
         statusLabel = UILabel()
-        statusLabel.center = CGPoint(x: self.view.bounds.midX, y: 200)
-        statusLabel.frame = CGRect(x: 0, y: 0, width: screenWidth-100, height: 21)
-//        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.frame = CGRect(x: 0, y: 200, width: screenWidth, height: 21)
         statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 1
+        statusLabel.numberOfLines = 0
         statusLabel.textAlignment = .center
         statusLabel.text = labelText
         statusLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -47,11 +53,13 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(statusLabel)
     }
     
-    
+    /**
+     *  Label
+     *  Order id
+     */
     func showOrderId(labelText: String){
         labelOrderId = UILabel()
         labelOrderId.frame = CGRect(x: 30, y: 300, width: screenWidth-100, height: 21)
-//        labelOrderId.translatesAutoresizingMaskIntoConstraints = false
         labelOrderId.lineBreakMode = .byWordWrapping
         labelOrderId.numberOfLines = 1
         labelOrderId.textAlignment = .left
@@ -60,12 +68,13 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelOrderId)
     }
     
-    
+    /**
+     *  Label
+     *  Mobile number
+     */
     func showMobileNo(labelText: String){
         labelMobileNumber = UILabel()
         labelMobileNumber.frame = CGRect(x: 30, y: 330, width: screenWidth-100, height: 21)
-//        labelMobileNumber.center = CGPoint(x: 160, y: 305)
-//        labelMobileNumber.translatesAutoresizingMaskIntoConstraints = false
         labelMobileNumber.lineBreakMode = .byWordWrapping
         labelMobileNumber.numberOfLines = 0
         labelMobileNumber.textAlignment = .left
@@ -74,11 +83,13 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelMobileNumber)
     }
     
+    /**
+     *  Label
+     *  Transaction amount
+     */
     func showPrice(labelText: String){
         labelPrice = UILabel()
         labelPrice.frame = CGRect(x: 30, y: 360, width: screenWidth-100, height: 21)
-//        labelPrice.center = CGPoint(x: 160, y: 295)
-//        labelPrice.translatesAutoresizingMaskIntoConstraints = false
         labelPrice.lineBreakMode = .byWordWrapping
         labelPrice.numberOfLines = 0
         labelPrice.textAlignment = .left
@@ -87,11 +98,13 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelPrice)
     }
     
+    /**
+     *  Label
+     *  Merchant Name
+     */
     func showMerchantName(labelText: String){
         labelMerchantName = UILabel()
         labelMerchantName.frame = CGRect(x: 30, y: 390, width: screenWidth-100, height: 21)
-//        labelMerchantName.center = CGPoint(x: 160, y: 285)
-//        labelMerchantName.translatesAutoresizingMaskIntoConstraints = false
         labelMerchantName.lineBreakMode = .byWordWrapping
         labelMerchantName.numberOfLines = 0
         labelMerchantName.textAlignment = .left
@@ -100,11 +113,13 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelMerchantName)
     }
     
+    /**
+     *  Label
+     *  Transaction id
+     */
     func showTransactionId(labelText: String){
         labelTransactionId = UILabel()
         labelTransactionId.frame = CGRect(x: 30, y: 420, width: screenWidth-100, height: 21)
-//        labelTransactionId.center = CGPoint(x: 160, y: 325)
-//        labelTransactionId.translatesAutoresizingMaskIntoConstraints = false
         labelTransactionId.lineBreakMode = .byWordWrapping
         labelTransactionId.numberOfLines = 1
         labelTransactionId.textAlignment = .left
@@ -113,21 +128,30 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelTransactionId)
     }
     
+    /**
+     *  Image
+     *  Status Image
+     */
     func showStatusImageView(){
         self.ivStatus = UIImageView()
-        self.ivStatus.frame = CGRect(x: self.view.bounds.midX - 50, y: 70, width: 100, height: 100)
-        self.ivStatus.image = UIImage(named: "error")
+        self.ivStatus.frame = CGRect(x: self.view.bounds.midX - 40, y: 90, width: 90, height: 90)
+        self.ivStatus.image = UIImage(named: "error.png")
         self.view.addSubview(ivStatus)
     }
     
     func showMerchantLogo(imageUrl: String){
 //        merchantLogo  = UIImageView(frame:CGRectMake(10, 50, 100, 300));
 //        merchantLogo.image = UIImage(named:"image.jpg")
+        
     }
     
+    /**
+     *  Button
+     *  Done
+     */
     func showDoneButton(){
         self.btnDone = UIButton()
-        self.btnDone.frame = CGRect(x: 50, y: self.view.bounds.maxY - 250, width: screenWidth-100, height: 40)
+        self.btnDone.frame = CGRect(x: 50, y: self.view.bounds.maxY - 100, width: screenWidth-100, height: 40)
         self.btnDone.backgroundColor = .white
         self.btnDone.layer.cornerRadius = 5
         self.btnDone.tag = 1
@@ -144,7 +168,7 @@ class ReceiptViewController: UIViewController {
      */
     @objc func onPressDone(_ sender: UIButton) {
         
-        if(paymentStatus! == "AUTHORISED"){
+        if(paymentStatus! == "AUTHORIZED"){
             RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_SUCCESS", body: responseBean!)
         }else if(paymentStatus! == "CANCELLED"){
             RnUlisSdk.shared!.sendBackEvent(withName: "Telr::PAYMENT_CANCELLED", body: responseBean!)
@@ -244,12 +268,12 @@ class ReceiptViewController: UIViewController {
 //        merchantLogo.image = UIImage(named: "error")
 //        merchantLogo.backgroundColor = .lightGray
         
-        if(paymentStatus! == "AUTHORISED"){
+        if(paymentStatus! == "AUTHORIZED"){
 //            ivStatus.image = successGif
             self.showStatusLabel(labelText: "Paid successfully!")
             self.statusLabel.textColor = .white
             headerView.backgroundColor = .systemGreen
-            self.loadImageFromUrl(url: "https://cdn-icons-png.flaticon.com/512/148/148767.png", imageView: self.ivStatus)
+            self.loadImageFromUrl(url: "https://cdn-icons-png.flaticon.com/512/7799/7799536.png", imageView: self.ivStatus)
         }else if(paymentStatus! == "CANCELLED"){
             ivStatus.image = failedImg
             self.showStatusLabel(labelText: "Payment is cancelled!")

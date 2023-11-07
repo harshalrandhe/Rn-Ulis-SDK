@@ -5,9 +5,10 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:7.2.1"
+    classpath "com.android.tools.build:gradle:7.2.2"
   }
 }
+
 
 def isNewArchitectureEnabled() {
   return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
@@ -58,6 +59,7 @@ android {
 repositories {
   mavenCentral()
   google()
+  maven { url 'https://jitpack.io' }
 }
 
 
@@ -66,14 +68,14 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
-  implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-//  implementation files(':telrpaysdk')
-  implementation files('libs/telrpaysdk.aar')
+  // implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
   implementation 'com.android.support:design:28.0.0'
-  implementation 'androidx.databinding:viewbinding:7.1.2'
-  implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+ implementation 'androidx.databinding:viewbinding:7.1.2'
+ implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
   implementation 'com.google.code.gson:gson:2.10.1'
-
+  implementation ('com.github.harshalrandhe:ULISPay:v0.0.5'){
+    exclude group: "com.parse.bolts"
+  }
 }
 
 if (isNewArchitectureEnabled()) {

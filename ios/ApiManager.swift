@@ -21,7 +21,7 @@ class ApiManager: NSObject {
       return request
     }
     
-    static func creatOrderApiRequest(url: String, parameters:[String: Any], completion: @escaping(ResponseBean)-> Void) {
+    static func createOrderApiRequest(url: String, parameters:[String: Any], completion: @escaping(ResponseBean)-> Void) {
             let session = URLSession.shared
             // Build API Request
         let request = BuildRequest(url: url, parameters: parameters["data"] as! [String : Any])

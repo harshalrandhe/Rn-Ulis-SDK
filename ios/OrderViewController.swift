@@ -22,12 +22,14 @@ class OrderViewController: UIViewController {
     var mToken: String = ""
     var mMerchantKey: String = ""
     var mMerchantSecret: String = ""
+    var mReturnUrl: String = ""
     var loderWarningGif: UIImage!
     var labelPoweredBy = UILabel()
     var message = UILabel()
     var btnDone = UIButton()
     var mResponseBean: ResponseBean!
     var option: AnyObject!
+    var pendingCounter: Int = 0
     
     
     func showTransactionId(){
@@ -179,7 +181,7 @@ class OrderViewController: UIViewController {
 //                "mobile_no": "8909890986",
 //                "amount": "366.45",
 //                "currency": "AED",
-//                "status": "AUTHORISED",
+//                "status": "AUTHORIZED",
 //                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status",
 //                "success_url": "https://ulis.live/status.php",
 //                "failed_url": "https://ulis.live/failed.php",
@@ -268,18 +270,22 @@ class OrderViewController: UIViewController {
         
         mMerchantKey = optionsData["merchantKey"]! as! String
         mMerchantSecret = optionsData["merchantSecret"]! as! String
+        let orderDetails = optionsData["order_details"]! as! [String: Any]
         
-        print("optionsData: -> " , optionsData)
+        mReturnUrl = orderDetails["return_url"]! as! String
+        
+//        print("Return url: -> ", mReturnUrl)
+//        print("optionsData: -> " , optionsData)
         print("Parameters: -> " , parameters)
         
-        ApiManager.creatOrderApiRequest(url: url, parameters: parameters, completion: apiCallback)
+        ApiManager.createOrderApiRequest(url: url, parameters: parameters, completion: CreateOrderApiCallback)
     }
     
     /**
      * Callback
-     * Create Order Callback
+     * Create Order API Callback
      */
-    func apiCallback(response: ResponseBean) -> () {
+    func CreateOrderApiCallback(response: ResponseBean) -> () {
         
         print ("Response = \(response.data)")
         
@@ -316,6 +322,7 @@ class OrderViewController: UIViewController {
                             discoverVC.paymentLink = payment_link!
                             discoverVC.merchantKey = self.mMerchantKey
                             discoverVC.merchantSecret = self.mMerchantSecret
+                            discoverVC.returnUrl = self.mReturnUrl
                             discoverVC.successUrl = successUrl
                             discoverVC.cancelUrl = cancelUrl
                             discoverVC.failureUrl = failuerUrl
@@ -437,6 +444,10 @@ class OrderViewController: UIViewController {
                 "merchantSecret": mMerchantSecret
         ]
         
+        
+        
+        pendingCounter = pendingCounter + 1;
+        
         ApiManager.checkOrderStatusApiRequest(url: url, parameters: parameters, completion: { response in
             
             // Stop loading indicator
@@ -461,9 +472,11 @@ class OrderViewController: UIViewController {
                                 let status = OrderDetails["status"] as? String
                                 print("Order Status: ", status!)
                                 
-                                if(status! == "AUTHORISED" || status! == "CANCELLED"){
+                                if(status! == "AUTHORIZED" || status! == "CANCELLED"){
                                     
-                                    self.timer.invalidate()
+                                    if(self.timer.isValid){
+                                        self.timer.invalidate()
+                                    }
                                     
                                     DispatchQueue.main.async {
                                         let postResponse = ResponseBean()
@@ -482,9 +495,30 @@ class OrderViewController: UIViewController {
                                     
                                 }else{
                                     // Order Is Pending
-                                    
+                                    print("pendingCounter....",self.pendingCounter)
+                                    if(self.pendingCounter >= 8){
+                                        
+                                        if(self.timer.isValid){
+                                            self.timer.invalidate()
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            let postResponse = ResponseBean()
+                                            postResponse.message = response.message
+                                            postResponse.status = response.status
+                                            postResponse.data = Data
+                                            
+                                            self.window = UIWindow(frame: UIScreen.main.bounds)
+                                            let receiptVC = ReceiptViewController()
+                                            receiptVC.responseBean = postResponse
+                                            let navigationController = UINavigationController(rootViewController: receiptVC)
+                                            navigationController.navigationBar.isTranslucent = false
+                                            self.window.rootViewController = navigationController
+                                            self.window.makeKeyAndVisible()
+                                        }
+                                    }
                                     DispatchQueue.main.async {
-                                        self.timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.checkOrderStatusAPICall), userInfo: nil, repeats: true)
+                                        self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.checkOrderStatusAPICall), userInfo: nil, repeats: true)
                                     }
                                     
                                 }
@@ -494,9 +528,28 @@ class OrderViewController: UIViewController {
                         
                     } else {
                         
+                        
+                        if(self.timer.isValid){
+                            self.timer.invalidate()
+                        }
+                        
                         DispatchQueue.main.async {
                             let ac = UIAlertController(title: "Failed!", message: message!, preferredStyle: .alert)
-                            ac.addAction(UIAlertAction(title: "OK", style: .default))
+                            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                                DispatchQueue.main.async {
+                                    let postResponse = ResponseBean()
+                                    postResponse.message = response.message
+                                    postResponse.status = response.status
+                                    
+                                    self.window = UIWindow(frame: UIScreen.main.bounds)
+                                    let receiptVC = ReceiptViewController()
+                                    receiptVC.responseBean = postResponse
+                                    let navigationController = UINavigationController(rootViewController: receiptVC)
+                                    navigationController.navigationBar.isTranslucent = false
+                                    self.window.rootViewController = navigationController
+                                    self.window.makeKeyAndVisible()
+                                }
+                            }))
                             self.present(ac, animated: true)
                         }
                         
@@ -508,7 +561,21 @@ class OrderViewController: UIViewController {
             }else{
                 DispatchQueue.main.async {
                     let ac = UIAlertController(title: "Error!", message: response.message, preferredStyle: .alert)
-                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    ac.addAction(UIAlertAction(title: "OK", style: .default,handler: { (_) in
+                        DispatchQueue.main.async {
+                            let postResponse = ResponseBean()
+                            postResponse.message = response.message
+                            postResponse.status = response.status
+                            
+                            self.window = UIWindow(frame: UIScreen.main.bounds)
+                            let receiptVC = ReceiptViewController()
+                            receiptVC.responseBean = postResponse
+                            let navigationController = UINavigationController(rootViewController: receiptVC)
+                            navigationController.navigationBar.isTranslucent = false
+                            self.window.rootViewController = navigationController
+                            self.window.makeKeyAndVisible()
+                        }
+                    }))
                     self.present(ac, animated: true)
                 }
             }

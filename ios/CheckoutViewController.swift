@@ -18,6 +18,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     var order_id: String = ""
     var token: String = ""
     var paymentLink: String = ""
+    var returnUrl: String = ""
     var successUrl: String = ""
     var cancelUrl: String = ""
     var failureUrl: String = ""
@@ -92,7 +93,7 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
                 print(Float(webView.estimatedProgress))
             }
             
-            if ("\(key)" == successUrl || "\(key)" == cancelUrl || "\(key)" == failureUrl) {
+            if ("\(key)" == self.returnUrl) {
                 performSegueToReturnBack()
             }else if ("\(key)" == "https://ulis.live:8081/error?m=session") {
                 performSegueToReturnBack()
@@ -127,7 +128,6 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
         // Pass the selected object to the new view controller.
     }
     */
-    
     
     func showProgressMessage(labelText: String){
         message.center = self.view.center;
