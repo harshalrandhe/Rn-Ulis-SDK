@@ -139,6 +139,11 @@ class OrderViewController: UIViewController {
         self.view.backgroundColor = .white // Screen bg color
         self.view.addSubview(message)
         
+//        let imageView = UIImageView(frame: self.view.frame)
+//        imageView.image = UIImage(named:"error.png")
+//        imageView.contentMode = .scaleAspectFit
+//        self.view.addSubview(imageView)
+        
         self.showTransactionId()
 
         if(self.orderAction == "create"){
@@ -181,7 +186,7 @@ class OrderViewController: UIViewController {
 //                "mobile_no": "8909890986",
 //                "amount": "366.45",
 //                "currency": "AED",
-//                "status": "AUTHORIZED",
+//                "status": "APPROVED",
 //                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status",
 //                "success_url": "https://ulis.live/status.php",
 //                "failed_url": "https://ulis.live/failed.php",
@@ -254,7 +259,6 @@ class OrderViewController: UIViewController {
         var parameters: [String : Any] = [:]
         var data: [String : Any] = [:]
         
-        data["env"] = optionsData["env"]!
         data["merchantKey"] = optionsData["merchantKey"]!
         data["merchantSecret"] = optionsData["merchantSecret"]!
         data["mobile_sdk"] = 1
@@ -265,6 +269,7 @@ class OrderViewController: UIViewController {
         data["order_details"] = optionsData["order_details"]! as! [String: Any]
         data["merchant_urls"] = optionsData["merchant_urls"]! as! [String: Any]
         data["transaction"] = optionsData["transaction"]! as! [String: Any]
+        data["integration"] = "MOBILESDK"
         
         parameters["data"] = data
         
@@ -279,6 +284,24 @@ class OrderViewController: UIViewController {
         print("Parameters: -> " , parameters)
         
         ApiManager.createOrderApiRequest(url: url, parameters: parameters, completion: CreateOrderApiCallback)
+        
+//        DispatchQueue.main.async {
+//            self.window = UIWindow(frame: UIScreen.main.bounds)
+//            let discoverVC = CheckoutViewController()
+//            discoverVC.order_id = "ORD51273195"
+//            discoverVC.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmRlcl9pZCI6Ik9SRDUxMjczMTk1IiwiYW1vdW50IjoiMTAwLjAwIiwiY3VycmVuY3kiOiJBRUQiLCJyZXR1cm5fdXJsIjoiaHR0cHM6Ly91bGlzLmxpdmU6ODA4MS9zdGF0dXMiLCJlbnYiOiJsaXZlIiwibWVyY2hhbnRfaWQiOjk3MiwiaWF0IjoxNzA1NTU5OTQwLCJleHAiOjE3MDU2NDYzNDB9.YmQtAtarE_7Dac_wIwnJwjhoqhljRg3138EAsL1pqoA"
+//            discoverVC.paymentLink = "https://ulis.live:8081/initiate/ORD51273195/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmRlcl9pZCI6Ik9SRDUxMjczMTk1IiwiYW1vdW50IjoiMTAwLjAwIiwiY3VycmVuY3kiOiJBRUQiLCJyZXR1cm5fdXJsIjoiaHR0cHM6Ly91bGlzLmxpdmU6ODA4MS9zdGF0dXMiLCJlbnYiOiJsaXZlIiwibWVyY2hhbnRfaWQiOjk3MiwiaWF0IjoxNzA1NTU5OTQwLCJleHAiOjE3MDU2NDYzNDB9.YmQtAtarE_7Dac_wIwnJwjhoqhljRg3138EAsL1pqoA"
+//            discoverVC.merchantKey = self.mMerchantKey
+//            discoverVC.merchantSecret = self.mMerchantSecret
+//            discoverVC.returnUrl = self.mReturnUrl
+//            discoverVC.successUrl = "https://ulis.live:8081/status"
+//            discoverVC.cancelUrl = "https://ulis.live:8081/status"
+//            discoverVC.failureUrl = "https://ulis.live:8081/status"
+//            let navigationController = UINavigationController(rootViewController: discoverVC)
+//            navigationController.navigationBar.isTranslucent = false
+//            self.window.rootViewController = navigationController
+//            self.window.makeKeyAndVisible()
+//        }
     }
     
     /**
@@ -343,7 +366,7 @@ class OrderViewController: UIViewController {
                     // Post result back
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                         
-                        var postResponse = ResponseBean()
+                        let postResponse = ResponseBean()
                         postResponse.message = message!
                         postResponse.status = response.status
                         postResponse.data = Response
@@ -432,19 +455,18 @@ class OrderViewController: UIViewController {
     @objc func checkOrderStatusAPICall(){
         
 //        let optionsData: [String: Any] = option as! [String : Any]
+//        mMerchantKey = optionsData["merchantKey"]! as! String
+//        mMerchantSecret = optionsData["merchantSecret"]! as! String
         
-//        data["merchantKey"] = optionsData["merchantKey"]!
-//        data["merchantSecret"] = optionsData["merchantSecret"]!
-        
-        let url = "https://ulis.live:4014/api/v1/orders/details"
+        let url = "https://ulis.live:4014/api/v1/orders/transaction-details-print"
         let parameters: [String: Any] = [
+//            "order_id": "ORD24010930", //failed order id
+//            "order_id": "ORD81927030", //success order id
                 "order_id": mOrderId,
-                "token": mToken,
+//                "token": mToken,
                 "merchantKey": mMerchantKey,
                 "merchantSecret": mMerchantSecret
         ]
-        
-        
         
         pendingCounter = pendingCounter + 1;
         
@@ -460,6 +482,8 @@ class OrderViewController: UIViewController {
                 
                 if let Response = response.data as? [String : Any]{
                     
+                    print ("Response2 = \(Response)")
+                    
                     let status = Response["status"] as? String
                     let message = Response["message"] as? String
                     
@@ -468,11 +492,11 @@ class OrderViewController: UIViewController {
                         
                         if let Data = Response["data"] as? [String : Any]{
                             
-                            if let OrderDetails = Data["order_details"] as? [String : Any]{
-                                let status = OrderDetails["status"] as? String
+                            if let TxnDetails = Data["transactions"] as? [[String:Any]]{
+                                let status = TxnDetails[0]["gateway_code"] as? String
                                 print("Order Status: ", status!)
                                 
-                                if(status! == "AUTHORIZED" || status! == "CANCELLED"){
+                                if(status! == "AUTHORIZED" || status! == "CANCELLED" || status! == "FAILED" || status! == "DECLINED"){
                                     
                                     if(self.timer.isValid){
                                         self.timer.invalidate()
@@ -495,7 +519,7 @@ class OrderViewController: UIViewController {
                                     
                                 }else{
                                     // Order Is Pending
-                                    print("pendingCounter....",self.pendingCounter)
+                                    print("pendingCounter....", self.pendingCounter)
                                     if(self.pendingCounter >= 8){
                                         
                                         if(self.timer.isValid){
@@ -537,17 +561,13 @@ class OrderViewController: UIViewController {
                             let ac = UIAlertController(title: "Failed!", message: message!, preferredStyle: .alert)
                             ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
                                 DispatchQueue.main.async {
-                                    let postResponse = ResponseBean()
-                                    postResponse.message = response.message
-                                    postResponse.status = response.status
                                     
-                                    self.window = UIWindow(frame: UIScreen.main.bounds)
-                                    let receiptVC = ReceiptViewController()
-                                    receiptVC.responseBean = postResponse
-                                    let navigationController = UINavigationController(rootViewController: receiptVC)
-                                    navigationController.navigationBar.isTranslucent = false
-                                    self.window.rootViewController = navigationController
-                                    self.window.makeKeyAndVisible()
+                                    let responseData: [String: Any] = [
+                                        "status": response.status,
+                                        "message": response.message,
+                                    ]
+                                    
+                                    self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
                                 }
                             }))
                             self.present(ac, animated: true)
@@ -563,17 +583,12 @@ class OrderViewController: UIViewController {
                     let ac = UIAlertController(title: "Error!", message: response.message, preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title: "OK", style: .default,handler: { (_) in
                         DispatchQueue.main.async {
-                            let postResponse = ResponseBean()
-                            postResponse.message = response.message
-                            postResponse.status = response.status
+                            let responseData: [String: Any] = [
+                                "status": response.status,
+                                "message": response.message,
+                            ]
                             
-                            self.window = UIWindow(frame: UIScreen.main.bounds)
-                            let receiptVC = ReceiptViewController()
-                            receiptVC.responseBean = postResponse
-                            let navigationController = UINavigationController(rootViewController: receiptVC)
-                            navigationController.navigationBar.isTranslucent = false
-                            self.window.rootViewController = navigationController
-                            self.window.makeKeyAndVisible()
+                            self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
                         }
                     }))
                     self.present(ac, animated: true)

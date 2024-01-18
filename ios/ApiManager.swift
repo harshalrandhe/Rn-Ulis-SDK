@@ -18,6 +18,8 @@ class ApiManager: NSObject {
         request.addValue(parameters["merchantKey"] as! String, forHTTPHeaderField: "merchant_key")
         request.addValue(parameters["merchantSecret"] as! String, forHTTPHeaderField: "merchant_secret")
         request.addValue("49.36.34.70", forHTTPHeaderField: "ip")
+        request.addValue("iOS", forHTTPHeaderField: "os")
+        request.addValue("49.36.34.70", forHTTPHeaderField: "ip_country")
       return request
     }
     
@@ -96,7 +98,7 @@ class ApiManager: NSObject {
         
         let parameters2: [String: Any] = [
             "order_id": parameters["order_id"] as! String,
-            "token": parameters["token"] as! String
+//            "token": parameters["token"] as! String
         ]
         
             do{
@@ -109,7 +111,7 @@ class ApiManager: NSObject {
                     }
                     
                     if error != nil {
-//                        print ("Error: -> \(error)")
+                        print ("Error: -> \(String(describing: error))")
                         let responseBean = ResponseBean()
                         responseBean.status = 400
                         responseBean.message = "Network connection error! Please check your internet connection and try again"

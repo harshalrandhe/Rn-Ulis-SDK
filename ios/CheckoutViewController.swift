@@ -12,6 +12,10 @@ import WebKit
 class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 
     var window: UIWindow!
+    var redirectView: UIView!
+    
+    weak var countdownTimer:Timer?
+    var totalTime = 20
     
     var webView: WKWebView!
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
@@ -26,8 +30,10 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     var merchantSecret: String = ""
     var checkoutCallback : ((String, String) -> Void)?
     var screenCallback : ((ResponseBean) -> Void)?
-    let message = UILabel()
     var indicator: ProgressIndicator?
+    
+    var message = UILabel()
+    var redirectText = UILabel()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -71,6 +77,67 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
         
     }
     
+    func showRedirectPageView(){
+        
+        // View
+        redirectView = UIView(frame: CGRect(x: 25.0, y: screenHeight-120, width: screenWidth-50, height: 90))
+        redirectView.layer.cornerRadius = 5
+//        redirectView.layer.shadowColor = UIColor.black.cgColor
+//        redirectView.layer.shadowOffset = CGSizeZero
+//        redirectView.layer.shadowOpacity = 0.5
+        redirectView.layer.shadowRadius = 5
+        redirectView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
+        view.addSubview(redirectView)
+        
+        // View Text
+        redirectText = UILabel(frame: CGRect(x: 25.0, y: screenHeight-120, width: screenWidth-50, height: 30))
+        redirectText.textColor = UIColor.black
+        redirectText.textAlignment = NSTextAlignment.center
+        redirectText.text = ""
+        redirectText.center = redirectText.center
+        view.addSubview(redirectText)
+        
+        let button = UIButton(frame: CGRect(x: screenWidth/4, y: screenHeight-85, width: screenWidth/2, height: 50))
+         button.setTitle("Done", for: .normal)
+         button.backgroundColor = .white
+         button.layer.cornerRadius = 5
+         button.layer.borderWidth = 1
+         button.setTitleColor(UIColor.black, for: .normal)
+         button.addTarget(self, action: #selector(self.onClickDoneBtn), for: .touchUpInside)
+         view.addSubview(button)
+        
+        //Timer
+        countdownTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+    }
+    
+    let defaults = UserDefaults.standard
+    @objc func updateTime() {
+
+//        print(redirectText.text as Any)
+        defaults.set(totalTime, forKey: "time")
+        let updateTime = defaults.integer(forKey: "time")
+        redirectText.text = "Screen redirecting in " +  "\(timeFormatted(updateTime))" + " secound"
+
+        totalTime -= 1
+
+        defaults.set(totalTime, forKey: "time")
+    
+        if totalTime < 0 {
+            countdownTimer?.invalidate()
+            performSegueToReturnBack()
+        }
+    }
+    
+    func timeFormatted(_ totalSeconds: Int) -> String {
+        let seconds: Int = totalSeconds % 60
+        return String(format: "%02d", seconds)
+    }
+    
+    @objc func onClickDoneBtn() {
+        countdownTimer?.invalidate()
+        performSegueToReturnBack()
+    }
+    
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         print("Start loading")
     }
@@ -94,29 +161,30 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
             }
             
             if ("\(key)" == self.returnUrl) {
-                performSegueToReturnBack()
+                showRedirectPageView()
             }else if ("\(key)" == "https://ulis.live:8081/error?m=session") {
-                performSegueToReturnBack()
+                showRedirectPageView()
             }
-            
         }
     }
     
     // Return Back To The Previoues screen
     func performSegueToReturnBack()  {
         
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        let orderVC = OrderViewController()
-        orderVC.orderAction = "check"
-        orderVC.mOrderId = self.order_id
-        orderVC.mToken = self.token
-        orderVC.mMerchantKey = self.merchantKey
-        orderVC.mMerchantSecret = self.merchantSecret
-        let discoverVC = orderVC as UIViewController
-        let navigationController = UINavigationController(rootViewController: discoverVC)
-        navigationController.navigationBar.isTranslucent = false
-        self.window.rootViewController = navigationController
-        self.window.makeKeyAndVisible()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            let orderVC = OrderViewController()
+            orderVC.orderAction = "check"
+            orderVC.mOrderId = self.order_id
+            orderVC.mToken = self.token
+            orderVC.mMerchantKey = self.merchantKey
+            orderVC.mMerchantSecret = self.merchantSecret
+            let discoverVC = orderVC as UIViewController
+            let navigationController = UINavigationController(rootViewController: discoverVC)
+            navigationController.navigationBar.isTranslucent = false
+            self.window.rootViewController = navigationController
+            self.window.makeKeyAndVisible()
+        }
     }
 
     /*

@@ -1,4 +1,3 @@
-import { lightgray, lightgreen } from "color-name";
 import * as React from "react";
 
 import {
@@ -9,19 +8,14 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableHighlight,
   View,
 } from "react-native";
 
-import {
-  TextField,
-  FilledTextField,
-  OutlinedTextField,
-} from "rn-material-ui-textfield";
+import { OutlinedTextField } from "rn-material-ui-textfield";
 
-import { open } from "rn-ulis-sdk";
 import { ScrollView } from "react-native";
+import { open } from "rn-pay-sdk";
 
 export default function App() {
   const telrpayEvents = new NativeEventEmitter(NativeModules.RnUlisSdk);
@@ -29,14 +23,17 @@ export default function App() {
   React.useEffect(() => {
     telrpayEvents.addListener("Telr::PAYMENT_SUCCESS", (data) => {
       console.log("PAYMENT_SUCCESS", data);
+      setAPIResponse(data);
       Alert.alert("Transactions successful!");
     });
     telrpayEvents.addListener("Telr::PAYMENT_ERROR", (data) => {
       console.log("PAYMENT_ERROR", data);
+      setAPIResponse(data);
       Alert.alert("Transactions error!");
     });
     telrpayEvents.addListener("Telr::PAYMENT_CANCELLED", (data) => {
       console.log("PAYMENT_CANCELLED", data);
+      setAPIResponse(data);
       Alert.alert("Transactions cancel!");
     });
 
@@ -56,13 +53,14 @@ export default function App() {
   };
 
   // Merchant keys
-  const [MerchantKey, setMerchantKey] = React.useState("live-9Q9PZM30FG");
-  const [MerchantSecret, setMerchantSecret] = React.useState("sec-8Z9DFZ30GK");
+  const [MerchantKey, setMerchantKey] = React.useState("live-SH10ZQM18IQ");
+  const [MerchantSecret, setMerchantSecret] = React.useState("sec-IW101K818CW");
 
   // Customer Details
   const [Name, setName] = React.useState("PayTM USER");
   const [Email, setEmail] = React.useState("rasibas152@kameili.com");
   const [Mobile, setMobile] = React.useState("5353453533");
+  const [MobileCode, setMobileCode] = React.useState("91");
 
   // Billing Details
   const [AddressLine1, setAddressLine1] = React.useState("distance");
@@ -105,20 +103,22 @@ export default function App() {
   const [MobileSdk, setMobileSdk] = React.useState(1);
   const [TxnClass, setTxnClass] = React.useState("ecom");
 
+  const [APIResponse, setAPIResponse] = React.useState("");
+
   var options = {
-    env: Environment,
     merchantKey: MerchantKey,
     merchantSecret: MerchantSecret,
     customer_details: {
       name: Name,
       email: Email,
       mobile: Mobile,
+      mobile_code: MobileCode,
     },
     productDetails: {
-      vendorName: "Zora Store",
+      vendorName: "Nescafe",
       vendorMobile: "1122334455",
-      productName: "T-Shirt",
-      productPrice: 120.0,
+      productName: "Classic Instant Coffee",
+      productPrice: 125.0,
       currency: "AED",
       image:
         "https://assetscdn1.paytm.com/images/catalog/product/A/AP/APPSCOTT-INTERNSWIT61083A52CCB4C/1562907534025_1..jpg?imwidth=320&impolicy=hq",
@@ -153,6 +153,7 @@ export default function App() {
     },
     transaction: {
       class: TxnClass,
+      integration: "MOBILESDK",
     },
   };
 
@@ -405,10 +406,12 @@ export default function App() {
                 options,
                 (response) => {
                   console.log("Success", response);
+                  setAPIResponse(response);
                   Alert.alert(response.message);
                 },
                 (error) => {
                   console.log("Error", error);
+                  setAPIResponse(error);
                   Alert.alert(error.message);
                 }
               );
@@ -418,6 +421,10 @@ export default function App() {
           >
             <Text>PAY</Text>
           </TouchableHighlight>
+
+          <Text style={{ marginVertical: 20 }}>
+            Response: {JSON.stringify(APIResponse)}
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

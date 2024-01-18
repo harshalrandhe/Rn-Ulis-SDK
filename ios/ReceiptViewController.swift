@@ -16,6 +16,10 @@ class ReceiptViewController: UIViewController {
     var merchantLogo = UIImageView()
     var labelTransactionId = UILabel()
     var labelOrderId = UILabel()
+    var labelTransactionType = UILabel()
+    var labelTransactionStatus = UILabel()
+    var labelTransactionTime = UILabel()
+    var labelCard = UILabel()
     var labelMobileNumber = UILabel()
     var labelPrice = UILabel()
     var labelMerchantName = UILabel()
@@ -23,6 +27,8 @@ class ReceiptViewController: UIViewController {
     var successGif: UIImage!
     var failedImg: UIImage!
     var paymentStatus: String!
+    var txnType: String!
+    var txnDate: String!
     
     var headerView: UIView!
     
@@ -38,65 +44,135 @@ class ReceiptViewController: UIViewController {
     }
     
     /**
+     *  Layout
+     */
+    func baseLable(labelText: String) -> UILabel{
+        let label = UILabel()
+        label.frame = CGRect(x: 30, y: 300, width: screenWidth-80, height: 21)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 1
+        label.textAlignment = .left
+        label.text = labelText
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label;
+    }
+    
+    /**
      *  Label
      *  Transaction Status
      */
     func showStatusLabel(labelText: String){
-        statusLabel = UILabel()
+        statusLabel = baseLable(labelText: labelText)
         statusLabel.frame = CGRect(x: 0, y: 200, width: screenWidth, height: 21)
-        statusLabel.lineBreakMode = .byWordWrapping
-        statusLabel.numberOfLines = 0
         statusLabel.textAlignment = .center
-        statusLabel.text = labelText
         statusLabel.font = UIFont.boldSystemFont(ofSize: 18)
-
         self.view.addSubview(statusLabel)
+    }
+    
+    /**
+     *  Label
+     *  Transaction id
+     */
+    func showTransactionId(value: String){
+        labelTransactionId = baseLable(labelText: "TXN ID")
+        labelTransactionId.frame = CGRect(x: 30, y: 300, width: screenWidth-100, height: 21)
+        
+        self.view.addSubview(labelTransactionId)
+        
+        labelTransactionId = baseLable(labelText: value)
+        labelTransactionId.frame = CGRect(x: 140, y: 300, width: screenWidth-100, height: 21)
+        
+        self.view.addSubview(labelTransactionId)
     }
     
     /**
      *  Label
      *  Order id
      */
-    func showOrderId(labelText: String){
-        labelOrderId = UILabel()
-        labelOrderId.frame = CGRect(x: 30, y: 300, width: screenWidth-100, height: 21)
-        labelOrderId.lineBreakMode = .byWordWrapping
-        labelOrderId.numberOfLines = 1
-        labelOrderId.textAlignment = .left
-        labelOrderId.text = labelText
+    func showOrderId(value: String){
+        labelOrderId = baseLable(labelText: "ORDER ID")
+        labelOrderId.frame = CGRect(x: 30, y: 330, width: screenWidth-120, height: 21)
+        self.view.addSubview(labelOrderId)
         
+        labelOrderId = baseLable(labelText: value)
+        labelOrderId.frame = CGRect(x: 140, y: 330, width: screenWidth-120, height: 21)
         self.view.addSubview(labelOrderId)
     }
     
     /**
      *  Label
-     *  Mobile number
+     *  Transaction Type
      */
-    func showMobileNo(labelText: String){
-        labelMobileNumber = UILabel()
-        labelMobileNumber.frame = CGRect(x: 30, y: 330, width: screenWidth-100, height: 21)
-        labelMobileNumber.lineBreakMode = .byWordWrapping
-        labelMobileNumber.numberOfLines = 0
-        labelMobileNumber.textAlignment = .left
-        labelMobileNumber.text = labelText
+    func showTransactionType(value: String){
+        labelTransactionType = baseLable(labelText: "TYPE")
+        labelTransactionType.frame = CGRect(x: 30, y: 360, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelTransactionType)
         
-        self.view.addSubview(labelMobileNumber)
+        labelTransactionType = baseLable(labelText: value)
+        labelTransactionType.frame = CGRect(x: 140, y: 360, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelTransactionType)
     }
     
     /**
      *  Label
      *  Transaction amount
      */
-    func showPrice(labelText: String){
-        labelPrice = UILabel()
-        labelPrice.frame = CGRect(x: 30, y: 360, width: screenWidth-100, height: 21)
-        labelPrice.lineBreakMode = .byWordWrapping
-        labelPrice.numberOfLines = 0
-        labelPrice.textAlignment = .left
-        labelPrice.text = labelText
+    func showPrice(value: String){
+        labelPrice = baseLable(labelText: "AMOUNT")
+        labelPrice.frame = CGRect(x: 30, y: 390, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelPrice)
         
+        labelPrice = baseLable(labelText: value)
+        labelPrice.frame = CGRect(x: 140, y: 390, width: screenWidth-100, height: 21)
         self.view.addSubview(labelPrice)
     }
+    
+    /**
+     *  Label
+     *  Transaction Status
+     */
+    func showTransactionStatus(value: String){
+        labelTransactionStatus = baseLable(labelText: "STATUS")
+        labelTransactionStatus.frame = CGRect(x: 30, y: 420, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelTransactionStatus)
+        
+        labelTransactionStatus = baseLable(labelText: value)
+        labelTransactionStatus.frame = CGRect(x: 140, y: 420, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelTransactionStatus)
+    }
+    
+    /**
+     *  Label
+     *  Transaction Time
+     */
+    func showTransactionTime(value: String){
+        labelTransactionTime = baseLable(labelText: "TIME(UTC)")
+        labelTransactionTime.frame = CGRect(x: 30, y: 450, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelTransactionTime)
+        
+        labelTransactionTime = baseLable(labelText: value)
+        labelTransactionTime.frame = CGRect(x: 140, y: 450, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelTransactionTime)
+    }
+    
+    /**
+     *  Label
+     *  Card
+     */
+    func showCard(value: String,value2: String){
+        labelCard = baseLable(labelText: "CARD")
+        labelCard.frame = CGRect(x: 30, y: 480, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelCard)
+    
+        labelCard = baseLable(labelText: value)
+        labelCard.frame = CGRect(x: 140, y: 480, width: screenWidth-200, height: 21)
+        self.view.addSubview(labelCard)
+        
+        labelCard = baseLable(labelText: value2)
+        labelCard.frame = CGRect(x: 140, y: 500, width: screenWidth-200, height: 21)
+        self.view.addSubview(labelCard)
+    }
+    
     
     /**
      *  Label
@@ -111,21 +187,6 @@ class ReceiptViewController: UIViewController {
         labelMerchantName.text = labelText
         
         self.view.addSubview(labelMerchantName)
-    }
-    
-    /**
-     *  Label
-     *  Transaction id
-     */
-    func showTransactionId(labelText: String){
-        labelTransactionId = UILabel()
-        labelTransactionId.frame = CGRect(x: 30, y: 420, width: screenWidth-100, height: 21)
-        labelTransactionId.lineBreakMode = .byWordWrapping
-        labelTransactionId.numberOfLines = 1
-        labelTransactionId.textAlignment = .left
-        labelTransactionId.text = labelText
-        
-        self.view.addSubview(labelTransactionId)
     }
     
     /**
@@ -211,62 +272,44 @@ class ReceiptViewController: UIViewController {
         self.showStatusImageView() // Status Image View
         self.showDoneButton() // Done Button
         
-        
         if let Data = responseBean.data as? [String : Any]{
             print ("Data = \(Data)")
-            if let OrderDetails = Data["order_details"] as? [String : Any]{
-                print ("OrderDetails = \(OrderDetails)")
-                paymentStatus = OrderDetails["status"] as? String
+            if let TxnArray = Data["transactions"] as? [[String : Any]]{
+                print ("OrderDetails = \(TxnArray[0])")
+                let TxnDetails = TxnArray[0]
+                paymentStatus = TxnDetails["gateway_code"] as? String
                 print("Order Status: ", paymentStatus!)
-                let currency = OrderDetails["currency"] as? String
-                let amount = OrderDetails["amount"] as? String
-                let mobileNo = OrderDetails["mobile_no"] as? String
-                let orderId = OrderDetails["order_id"] as? String
-
-//                self.labelPrice.text = currency! + " " + amount!
-//                self.labelMobileNumber.text = mobileNo!
-//                self.labelOrderId.text = orderId!
-                
-                self.showPrice(labelText: "Amount: " + currency! + " " + amount!)
-                self.showMobileNo(labelText: "Mobile No.: " + mobileNo!)
-                self.showOrderId(labelText: "Order ID: " + orderId!)
-                self.showTransactionId(labelText: "Txn. ID: " + "-")
-
+                txnType = TxnDetails["type"] as? String
+                txnDate = TxnDetails["date_time"] as? String
             }
-
-            if let MerchantDetails = Data["merchant_details"] as? [String : Any]{
-                let logo = MerchantDetails["logo"] as? String
-                let merchantName = MerchantDetails["merchant_name"] as? String
-//                self.loadImageFromUrl(url: logo!, imageView: self.merchantLogo)
-                self.showMerchantName(labelText: "Merchant: " + merchantName!)
+            
+            if let OrderDetails = Data["transactions"] as? [[String : Any]]{
+                print ("OrderDetails = \(OrderDetails[0])")
+                let TxnDetails = OrderDetails[0]
+                paymentStatus = TxnDetails["gateway_code"] as? String
+                print("Order Status: ", paymentStatus!)
             }
+            
+            let amount = Data["total_amount"] as? String
+            let orderId = Data["order_id"] as? String
+            let transactionId = Data["transaction_id"] as? String
+            let accountIdentifier = Data["account_identifier"] as? String
+            let cardBrand = Data["card_brand"] as? String
+            
+            self.showPrice(value:  amount!)
+            self.showOrderId(value: orderId!)
+            self.showTransactionId(value: transactionId!)
+            self.showTransactionType(value:  txnType!)
+            self.showTransactionStatus(value:  paymentStatus!)
+            self.showTransactionTime(value: txnDate!)
+            self.showCard(value: cardBrand! ,value2: accountIdentifier!)
+            
         }
         
-//        let frameworkBundle = Bundle(for: ReceiptViewController.self)
-//        let imagePath = frameworkBundle.path(forResource: "error", ofType: "png")
-//        print("ImagePath>>>>>", imagePath)
-//        if imagePath != nil {
-//            failedImg = UIImage(contentsOfFile: imagePath!)
-//        }
-
         
         let bundle = Bundle(for: ReceiptViewController.self)
         let failedImg = UIImage(named: "error", in: bundle, compatibleWith: nil)
         
-//       let failedImageData = try? Data(contentsOf: Bundle.main.url(forResource: "error", withExtension: "png")!)
-//       if failedImageData != nil {
-//           self.failedImg = UIImage(data: failedImageData!)
-//        }
-
-//        let successImageData = try? Data(contentsOf: Bundle.main.url(forResource: "success", withExtension: "gif")!)
-//        successGif = UIImage.gifImageWithData(successImageData!)
-
-        
-        
-//        merchantLogo = UIImageView()
-//        merchantLogo.frame = CGRect(x: 30, y: 480, width: 60, height: 60)
-//        merchantLogo.image = UIImage(named: "error")
-//        merchantLogo.backgroundColor = .lightGray
         
         if(paymentStatus! == "AUTHORIZED"){
 //            ivStatus.image = successGif
@@ -280,23 +323,18 @@ class ReceiptViewController: UIViewController {
             self.statusLabel.textColor = .white
             headerView.backgroundColor = .systemRed
             self.loadImageFromUrl(url: "https://www.freeiconspng.com/uploads/error-icon-4.png", imageView: self.ivStatus)
+        }else if(paymentStatus! == "FAILED"){
+            ivStatus.image = failedImg
+            self.showStatusLabel(labelText: "Payment is failed!")
+            self.statusLabel.textColor = .white
+            headerView.backgroundColor = .systemRed
+            self.loadImageFromUrl(url: "https://www.freeiconspng.com/uploads/error-icon-4.png", imageView: self.ivStatus)
         }else {
             self.showStatusLabel(labelText: paymentStatus!)
             self.statusLabel.textColor = .white
             headerView.backgroundColor = .systemOrange
             self.loadImageFromUrl(url: "https://origin-staticv2.sonyliv.com/UI_icons/Tray_With_BG_Image/Inprogress_icon.png", imageView: self.ivStatus)
         }
-        
-//        self.loadImageFromUrl(url: "https://ulis.live:4010/static/images/fav_icon-1672899475914-616922036.png", imageView: self.merchantLogo)
-        
-        
-        
-    
-        
-//        DispatchQueue.main.async { self.setImagePlacehoder(imageView: self.merchantLogo) }
-        
-        
-//        self.view.addSubview(merchantLogo)
     }
 
     /**
