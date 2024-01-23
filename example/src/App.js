@@ -48,7 +48,6 @@ export default function App() {
 
   const generateOrderId = () => {
     let numbers = "ORD" + Math.floor(10000000 + Math.random() * 89999999);
-    // console.log("ID: ", numbers)
     return numbers;
   };
 
@@ -332,13 +331,13 @@ export default function App() {
 
           <Text style={styles.headerText}>Order Details</Text>
 
-          <OutlinedTextField
+          {/* <OutlinedTextField
             label="OrderId"
             value={OrderId}
             onChangeText={(value) => {
               setOrderId(value);
             }}
-          />
+          /> */}
 
           <OutlinedTextField
             label="Amount"
