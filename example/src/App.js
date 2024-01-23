@@ -210,13 +210,25 @@ export default function App() {
             }}
           />
 
-          <OutlinedTextField
-            label="Mobile"
-            value={Mobile}
-            onChangeText={(value) => {
-              setMobile(value);
-            }}
-          />
+          <View style={{ flexDirection: "row" }}>
+            <OutlinedTextField
+              label="Country code"
+              value={MobileCode}
+              onChangeText={(value) => {
+                setMobileCode(value);
+              }}
+              containerStyle={{ flex: 0.3 }}
+            />
+            <View style={{ width: 10 }} />
+            <OutlinedTextField
+              label="Mobile"
+              value={Mobile}
+              onChangeText={(value) => {
+                setMobile(value);
+              }}
+              containerStyle={{ flex: 1 }}
+            />
+          </View>
 
           <Text style={styles.headerText}>Billing Details</Text>
 
