@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ReceiptViewController: UIViewController {
-
+    
     var statusLabel = UILabel()
     var btnDone: UIButton!
     var ivStatus: UIImageView!
@@ -80,7 +81,7 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelTransactionId)
         
         labelTransactionId = baseLable(labelText: value)
-        labelTransactionId.frame = CGRect(x: 140, y: 300, width: screenWidth-100, height: 21)
+        labelTransactionId.frame = CGRect(x: 160, y: 300, width: screenWidth-100, height: 21)
         
         self.view.addSubview(labelTransactionId)
     }
@@ -95,7 +96,7 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelOrderId)
         
         labelOrderId = baseLable(labelText: value)
-        labelOrderId.frame = CGRect(x: 140, y: 330, width: screenWidth-120, height: 21)
+        labelOrderId.frame = CGRect(x: 160, y: 330, width: screenWidth-120, height: 21)
         self.view.addSubview(labelOrderId)
     }
     
@@ -109,7 +110,7 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelTransactionType)
         
         labelTransactionType = baseLable(labelText: value)
-        labelTransactionType.frame = CGRect(x: 140, y: 360, width: screenWidth-100, height: 21)
+        labelTransactionType.frame = CGRect(x: 160, y: 360, width: screenWidth-100, height: 21)
         self.view.addSubview(labelTransactionType)
     }
     
@@ -123,7 +124,7 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelPrice)
         
         labelPrice = baseLable(labelText: value)
-        labelPrice.frame = CGRect(x: 140, y: 390, width: screenWidth-100, height: 21)
+        labelPrice.frame = CGRect(x: 160, y: 390, width: screenWidth-100, height: 21)
         self.view.addSubview(labelPrice)
     }
     
@@ -137,7 +138,7 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelTransactionStatus)
         
         labelTransactionStatus = baseLable(labelText: value)
-        labelTransactionStatus.frame = CGRect(x: 140, y: 420, width: screenWidth-100, height: 21)
+        labelTransactionStatus.frame = CGRect(x: 160, y: 420, width: screenWidth-100, height: 21)
         self.view.addSubview(labelTransactionStatus)
     }
     
@@ -151,7 +152,7 @@ class ReceiptViewController: UIViewController {
         self.view.addSubview(labelTransactionTime)
         
         labelTransactionTime = baseLable(labelText: value)
-        labelTransactionTime.frame = CGRect(x: 140, y: 450, width: screenWidth-100, height: 21)
+        labelTransactionTime.frame = CGRect(x: 160, y: 450, width: screenWidth-100, height: 21)
         self.view.addSubview(labelTransactionTime)
     }
     
@@ -163,14 +164,57 @@ class ReceiptViewController: UIViewController {
         labelCard = baseLable(labelText: "CARD")
         labelCard.frame = CGRect(x: 30, y: 480, width: screenWidth-100, height: 21)
         self.view.addSubview(labelCard)
-    
+        
         labelCard = baseLable(labelText: value)
-        labelCard.frame = CGRect(x: 140, y: 480, width: screenWidth-200, height: 21)
+        labelCard.frame = CGRect(x: 160, y: 480, width: screenWidth-200, height: 21)
         self.view.addSubview(labelCard)
         
         labelCard = baseLable(labelText: value2)
-        labelCard.frame = CGRect(x: 140, y: 500, width: screenWidth-200, height: 21)
+        labelCard.frame = CGRect(x: 160, y: 500, width: screenWidth-200, height: 21)
         self.view.addSubview(labelCard)
+    }
+    
+    
+    /**
+     *  Label
+     *  Email Address
+     */
+    func showEmailAddress(value: String){
+        var labelEmailAddress = baseLable(labelText: "EMAIL ADDRESS")
+        labelEmailAddress.frame = CGRect(x: 30, y: 530, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelEmailAddress)
+        
+        labelEmailAddress = baseLable(labelText: value)
+        labelEmailAddress.frame = CGRect(x: 160, y: 530, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelEmailAddress)
+    }
+    
+    /**
+     *  Label
+     *  Phone Number
+     */
+    func showPhoneNumber(value: String){
+        var labelPhoneNumber = baseLable(labelText: "PHONE NUMBER")
+        labelPhoneNumber.frame = CGRect(x: 30, y: 560, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelPhoneNumber)
+        
+        labelPhoneNumber = baseLable(labelText: value)
+        labelPhoneNumber.frame = CGRect(x: 160, y: 560, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelPhoneNumber)
+    }
+    
+    /**
+     *  Label
+     *  Phone Number
+     */
+    func showCountry(value: String){
+        var labelCountry = baseLable(labelText: "COUNTRY")
+        labelCountry.frame = CGRect(x: 30, y: 590, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelCountry)
+        
+        labelCountry = baseLable(labelText: value)
+        labelCountry.frame = CGRect(x: 160, y: 590, width: screenWidth-100, height: 21)
+        self.view.addSubview(labelCountry)
     }
     
     
@@ -196,13 +240,13 @@ class ReceiptViewController: UIViewController {
     func showStatusImageView(){
         self.ivStatus = UIImageView()
         self.ivStatus.frame = CGRect(x: self.view.bounds.midX - 40, y: 90, width: 90, height: 90)
-        self.ivStatus.image = UIImage(named: "error.png")
+        self.ivStatus.image = UIImage(named: "store")
         self.view.addSubview(ivStatus)
     }
     
     func showMerchantLogo(imageUrl: String){
-//        merchantLogo  = UIImageView(frame:CGRectMake(10, 50, 100, 300));
-//        merchantLogo.image = UIImage(named:"image.jpg")
+        //        merchantLogo  = UIImageView(frame:CGRectMake(10, 50, 100, 300));
+        //        merchantLogo.image = UIImage(named:"image.jpg")
         
     }
     
@@ -248,7 +292,7 @@ class ReceiptViewController: UIViewController {
         self.view.removeFromSuperview()
         
         self.navigationController?.viewControllers.removeAll(where: {$0.isModalInPopover})
-
+        
         self.navigationController?.dismiss(animated: true)
     }
     
@@ -271,6 +315,7 @@ class ReceiptViewController: UIViewController {
         self.showHeaderView() // Header View
         self.showStatusImageView() // Status Image View
         self.showDoneButton() // Done Button
+        
         
         if let Data = responseBean.data as? [String : Any]{
             print ("Data = \(Data)")
@@ -296,6 +341,18 @@ class ReceiptViewController: UIViewController {
             let accountIdentifier = Data["account_identifier"] as? String
             let cardBrand = Data["card_brand"] as? String
             
+            var emailAddress: String!
+            var phoneNumber: String!
+            var country: String!
+            if let CustomerDetails = Data["customer_details"] as? [String : Any]{
+                emailAddress = CustomerDetails["email"] as? String;
+                phoneNumber = CustomerDetails["mobile_no"] as? String;
+                
+                if let BillingAddress = CustomerDetails["billing_address"] as? [String : Any]{
+                    country = BillingAddress["country"] as? String;
+                }
+            }
+            
             self.showPrice(value:  amount!)
             self.showOrderId(value: orderId!)
             self.showTransactionId(value: transactionId!)
@@ -303,16 +360,15 @@ class ReceiptViewController: UIViewController {
             self.showTransactionStatus(value:  paymentStatus!)
             self.showTransactionTime(value: txnDate!)
             self.showCard(value: cardBrand! ,value2: accountIdentifier!)
+            self.showEmailAddress(value: emailAddress!)
+            self.showPhoneNumber(value: phoneNumber!)
+            self.showCountry(value: country!)
             
         }
         
         
-        let bundle = Bundle(for: ReceiptViewController.self)
-        let failedImg = UIImage(named: "error", in: bundle, compatibleWith: nil)
-        
-        
         if(paymentStatus! == "AUTHORIZED"){
-//            ivStatus.image = successGif
+            //            ivStatus.image = successGif
             self.showStatusLabel(labelText: "Paid successfully!")
             self.statusLabel.textColor = .white
             headerView.backgroundColor = .systemGreen
@@ -335,8 +391,9 @@ class ReceiptViewController: UIViewController {
             headerView.backgroundColor = .systemOrange
             self.loadImageFromUrl(url: "https://origin-staticv2.sonyliv.com/UI_icons/Tray_With_BG_Image/Inprogress_icon.png", imageView: self.ivStatus)
         }
+        
     }
-
+    
     /**
      * Post Result Return Back To The Previoues screen
      */
@@ -348,11 +405,11 @@ class ReceiptViewController: UIViewController {
     
     func loadImageFromUrl(url: String, imageView: UIImageView){
         let catPictureURL = URL(string: url)!
-
+        
         // Creating a session object with the default configuration.
         // You can read more about it here https://developer.apple.com/reference/foundation/urlsessionconfiguration
         let session = URLSession(configuration: .default)
-
+        
         // Define a download task. The download task will download the contents of the URL as a Data object and then you can do what you wish with that data.
         let downloadPicTask = session.dataTask(with: catPictureURL) { (data, response, error) in
             // The download has finished.
@@ -363,7 +420,7 @@ class ReceiptViewController: UIViewController {
                 // No errors found.
                 // It would be weird if we didn't have a response, so check for that too.
                 if let res = response as? HTTPURLResponse {
-                    print("Downloaded cat picture with response code \(res.statusCode)")
+                    print("Downloaded image with response code \(res.statusCode)")
                     if let imageData = data {
                         // Finally convert that Data into an image and do what you wish with it.
                         let image = UIImage(data: imageData)
@@ -385,7 +442,7 @@ class ReceiptViewController: UIViewController {
                 }
             }
         }
-
+        
         downloadPicTask.resume()
     }
     
@@ -396,21 +453,21 @@ class ReceiptViewController: UIViewController {
     
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
     
     // Screen width.
     public var screenWidth: CGFloat {
         return UIScreen.main.bounds.width
     }
-
+    
     // Screen height.
     public var screenHeight: CGFloat {
         return UIScreen.main.bounds.height
@@ -418,18 +475,18 @@ class ReceiptViewController: UIViewController {
     
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-
+        
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
-
+        
         if ((cString.count) != 6) {
             return UIColor.gray
         }
-
+        
         var rgbValue:UInt64 = 0
         Scanner(string: cString).scanHexInt64(&rgbValue)
-
+        
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,

@@ -139,11 +139,6 @@ class OrderViewController: UIViewController {
         self.view.backgroundColor = .white // Screen bg color
         self.view.addSubview(message)
         
-//        let imageView = UIImageView(frame: self.view.frame)
-//        imageView.image = UIImage(named:"error.png")
-//        imageView.contentMode = .scaleAspectFit
-//        self.view.addSubview(imageView)
-        
         self.showTransactionId()
 
         if(self.orderAction == "create"){
@@ -161,42 +156,73 @@ class OrderViewController: UIViewController {
 //        postResponse.message = "Testing"
 //        postResponse.status = 200
 //        postResponse.data = [
-//            "merchant_details": [
-//                "theme": "light-layout",
-//                "icon": "",
-//                "logo": "https://ulis.live:4010/static/files/tila-logo.svg",
-//                "use_logo": "",
-//                "we_accept_image": "",
-//                "brand_color": "#4c64e6",
-//                "accent_color": "#4c64e6",
-//                "branding_language": "VkNqVEs0VklmNHk3VWhtUWt1UzdsQT09",
-//                "merchant_name": "Tila",
-//                "company_details": [
-//                    "fav_icon": "https://ulis.live:4010/static/images/fav_icon-1672899475914-616922036.png",
-//                    "logo": "",
-//                    "letter_head": "https://ulis.live:4010/static/images/letter_head-1664887583604-274870745.png",
-//                    "footer_banner": "https://ulis.live:4010/static/images/footer_banner-1672897702594-924587242.png",
-//                    "title": ""
+//            "merchant_category_code": 2,
+//            "payment_method": "DEBIT CARD",
+//            "acquirer": "Mashreq",
+//            "authorized_amount": "AED 101.00",
+//            "convenience_fee": "AED 20.10",
+//            "domestic_international_fee": "AED 20.10",
+//            "total_amount": "AED 141.20",
+//            "account_identifier": "511111xxxxxx1118",
+//            "order_id": "IOP1428014",
+//            "card_expiry_date": "1-39",
+//            "created_date": "23-11-2023 10:11:42",
+//            "order_date": "23-11-2023 10:11:42",
+//            "last_update_date": "23-11-2023 10:11:42",
+//            "funding_method": "DEBIT",
+//            "card_brand": "VISA",
+//            "os": "0",
+//            "browser": "",
+//            "ip": "49.36.34.70",
+//            "country_of_ip": "",
+//            "country_of_card": "",
+//            "description": "initial invoice payment",
+//            "company_name": "Fintech Technology",
+//            "store_id": 100987,
+//            "transactions": [
+//                [
+//                    "date_time": "23-11-2023 10:16:12",
+//                    "type": "SALE",
+//                    "gateway_code": "AUTHORIZED",
+//                    "amount": "141.20 AED",
+//                    "transaction_id": "100000001473",
+//                    "created_by": ""
 //                ]
 //            ],
-//            "order_details": [
-//                "order_id": "ORD5927096371",
-//                "name": "My Store",
-//                "email": "golu.r@ulistechnology.com",
-//                "mobile_no": "8909890986",
-//                "amount": "366.45",
-//                "currency": "AED",
-//                "status": "APPROVED",
-//                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status",
-//                "success_url": "https://ulis.live/status.php",
-//                "failed_url": "https://ulis.live/failed.php",
-//                "cancel_url": "https://ulis.live/cancel.php",
-//                "psp_name": "mashreq",
-//                "merchant_url": "https://test-gateway.mastercard.com",
-//                "env": "live"
+//            "transaction_id": "100000001473",
+//            "authcode": "206465",
+//            "channel": "QR",
+//            "telr_details": "Dubai Digital Park, Building A1, PO Box 333882, Dubai, UAE",
+//            "customer_details": [
+//                "name": "Ulis Technology",
+//                "email": "vaibhav.p@yopmail.com",
+//                "mobile_no": "+91 9876543212",
+//                "mobile_code": "",
+//                "billing_address": [
+//                    "address_line_1": "nandanwan polic station nagpur",
+//                    "address_line_2": "",
+//                    "city": "Nagpur",
+//                    "province": "Maharashtra",
+//                    "country": "India",
+//                    "pincode": "440008"
+//                ],
+//                "shipping_address": [
+//                    "address_line_1": " polic station",
+//                    "address_line_2": " polic ",
+//                    "city": "nagpur",
+//                    "province": "india",
+//                    "country": "india",
+//                    "pincode": "676545"
+//                ],
+//                "redirect_url": ""
+//            ] as [String : Any] as [String : Any],
+//            "merchant_details": [
+//                "name": " ",
+//                "email": "rajugaikwaddf@yopmail.com",
+//                "mobile_no": "971 876543998"
 //            ],
-//            "prefer_lang": "VkNqVEs0VklmNHk3VWhtUWt1UzdsQT09"
-//        ]
+//            "return_url": "https://secure-uae.telrdev.com/"
+//        ] as [String : Any]
 //
 //        self.window = UIWindow(frame: UIScreen.main.bounds)
 //        let receiptVC = ReceiptViewController()
@@ -215,45 +241,6 @@ class OrderViewController: UIViewController {
     func createOrderAPICall(){
         
         let url = "https://ulis.live:4014/api/v1/orders/create"
-//        let parameters: [String: Any] = [
-//            "data": ["customer_details": [
-//                "name": "My Store",
-//                "email": "golu.r@ulistechnology.com",
-//                "mobile": "8909890986"
-//            ],
-//            "billing_details": [
-//                "address_line1": "Wardhman nagar ,nagpur",
-//                "address_line2": "",
-//                "country": "India",
-//                "city": "Nagpur",
-//                "pin": "440001",
-//                "province": "Maharastra"
-//            ],
-//            "shipping_details": [
-//                "address_line1": "Wardhman nagar ,nagpur",
-//                "address_line2": "",
-//                "country": "India",
-//                "city": "Nagpur",
-//                "pin": "440001",
-//                "province": "Maharastra"
-//            ],
-//            "order_details": [
-//                "order_id": randomStringWithLength(len: 7),
-//                "amount": "366.45",
-//                "currency": "AED",
-//                "description": "TShirt",
-//                "return_url": "https://dev.tlr.fe.ulis.live/merchant/payment/status"
-//            ],
-//            "mobile_sdk": "1",
-//            "merchant_urls": [
-//                "success": "https://ulis.live/status.php",
-//                "cancel": "https://ulis.live/cancel.php",
-//                "failure": "https://ulis.live/failed.php"
-//            ],
-//            "transaction": ["class": "ECOM"]
-//
-//            ]
-//        ]
         
         let optionsData: [String: Any] = option as! [String : Any]
         var parameters: [String : Any] = [:]
@@ -284,24 +271,6 @@ class OrderViewController: UIViewController {
         print("Parameters: -> " , parameters)
         
         ApiManager.createOrderApiRequest(url: url, parameters: parameters, completion: CreateOrderApiCallback)
-        
-//        DispatchQueue.main.async {
-//            self.window = UIWindow(frame: UIScreen.main.bounds)
-//            let discoverVC = CheckoutViewController()
-//            discoverVC.order_id = "ORD51273195"
-//            discoverVC.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmRlcl9pZCI6Ik9SRDUxMjczMTk1IiwiYW1vdW50IjoiMTAwLjAwIiwiY3VycmVuY3kiOiJBRUQiLCJyZXR1cm5fdXJsIjoiaHR0cHM6Ly91bGlzLmxpdmU6ODA4MS9zdGF0dXMiLCJlbnYiOiJsaXZlIiwibWVyY2hhbnRfaWQiOjk3MiwiaWF0IjoxNzA1NTU5OTQwLCJleHAiOjE3MDU2NDYzNDB9.YmQtAtarE_7Dac_wIwnJwjhoqhljRg3138EAsL1pqoA"
-//            discoverVC.paymentLink = "https://ulis.live:8081/initiate/ORD51273195/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmRlcl9pZCI6Ik9SRDUxMjczMTk1IiwiYW1vdW50IjoiMTAwLjAwIiwiY3VycmVuY3kiOiJBRUQiLCJyZXR1cm5fdXJsIjoiaHR0cHM6Ly91bGlzLmxpdmU6ODA4MS9zdGF0dXMiLCJlbnYiOiJsaXZlIiwibWVyY2hhbnRfaWQiOjk3MiwiaWF0IjoxNzA1NTU5OTQwLCJleHAiOjE3MDU2NDYzNDB9.YmQtAtarE_7Dac_wIwnJwjhoqhljRg3138EAsL1pqoA"
-//            discoverVC.merchantKey = self.mMerchantKey
-//            discoverVC.merchantSecret = self.mMerchantSecret
-//            discoverVC.returnUrl = self.mReturnUrl
-//            discoverVC.successUrl = "https://ulis.live:8081/status"
-//            discoverVC.cancelUrl = "https://ulis.live:8081/status"
-//            discoverVC.failureUrl = "https://ulis.live:8081/status"
-//            let navigationController = UINavigationController(rootViewController: discoverVC)
-//            navigationController.navigationBar.isTranslucent = false
-//            self.window.rootViewController = navigationController
-//            self.window.makeKeyAndVisible()
-//        }
     }
     
     /**
@@ -541,6 +510,7 @@ class OrderViewController: UIViewController {
                                             self.window.makeKeyAndVisible()
                                         }
                                     }
+                                    
                                     DispatchQueue.main.async {
                                         self.timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.checkOrderStatusAPICall), userInfo: nil, repeats: true)
                                     }

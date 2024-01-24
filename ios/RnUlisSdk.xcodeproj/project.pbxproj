@@ -7,21 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B0E10C72B60E42400F0684F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B0E10C62B60E42400F0684F /* Assets.xcassets */; };
+		6B0E10CD2B6116D700F0684F /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 6B0E10C62B60E42400F0684F /* Assets.xcassets */; };
 		6B829D4C29FA4629009D2120 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B829D4B29FA4629009D2120 /* CheckoutViewController.swift */; };
 		6BA54EE729FCED8A00559A87 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EE629FCED8900559A87 /* OrderViewController.swift */; };
 		6BA54EEE29FD1E6700559A87 /* RnUlisSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EE929FD1E6600559A87 /* RnUlisSdk.m */; };
 		6BA54EF529FD1E9700559A87 /* ResponseBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EF029FD1E9700559A87 /* ResponseBean.swift */; };
 		6BA54EF629FD1E9700559A87 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EF129FD1E9700559A87 /* IndicatorViewController.swift */; };
-		6BA54EF729FD1E9700559A87 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EF229FD1E9700559A87 /* iOSDevCenters+GIF.swift */; };
 		6BA54EF829FD1E9700559A87 /* ReceiptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EF329FD1E9700559A87 /* ReceiptViewController.swift */; };
 		6BA54EF929FD1E9700559A87 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA54EF429FD1E9700559A87 /* ApiManager.swift */; };
 		6BA66CAF29FB936300884CED /* UlisEventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA66CAE29FB936300884CED /* UlisEventEmitter.swift */; };
 		6BA66CB229FBA22600884CED /* UlisEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA66CB129FBA22600884CED /* UlisEventEmitter.m */; };
-		6BB2248929FF7DB600A70586 /* error.png in Sources */ = {isa = PBXBuildFile; fileRef = 6BB2248429FF7D7700A70586 /* error.png */; };
-		6BB2248A29FF7DB600A70586 /* money_flow.gif in Sources */ = {isa = PBXBuildFile; fileRef = 6BB2248529FF7D7700A70586 /* money_flow.gif */; };
-		6BB2248B29FF7DB600A70586 /* store.png in Sources */ = {isa = PBXBuildFile; fileRef = 6BB2248729FF7D7700A70586 /* store.png */; };
-		6BB2248C29FF7DB600A70586 /* success.gif in Sources */ = {isa = PBXBuildFile; fileRef = 6BB2248629FF7D7700A70586 /* success.gif */; };
-		6BB2248D29FF7DB600A70586 /* warning.gif in Sources */ = {isa = PBXBuildFile; fileRef = 6BB2247D29FF770000A70586 /* warning.gif */; };
 		6BB87FAD2A02483500998526 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB87FAC2A02483500998526 /* UIApplication.swift */; };
 		6BC3308F2A062B4600D63A6E /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3308E2A062B4600D63A6E /* ProgressIndicator.swift */; };
 		6BFFCBBD2A01116F00BCF2FC /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFFCBBC2A01116F00BCF2FC /* LabelView.swift */; };
@@ -43,25 +39,18 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRnUlisSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRnUlisSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B0E10C62B60E42400F0684F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B829D4B29FA4629009D2120 /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		6BA54EE629FCED8900559A87 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		6BA54EE929FD1E6600559A87 /* RnUlisSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RnUlisSdk.m; sourceTree = "<group>"; };
 		6BA54EF029FD1E9700559A87 /* ResponseBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseBean.swift; sourceTree = "<group>"; };
 		6BA54EF129FD1E9700559A87 /* IndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
-		6BA54EF229FD1E9700559A87 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
 		6BA54EF329FD1E9700559A87 /* ReceiptViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReceiptViewController.swift; sourceTree = "<group>"; };
 		6BA54EF429FD1E9700559A87 /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		6BA66CAE29FB936300884CED /* UlisEventEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UlisEventEmitter.swift; sourceTree = "<group>"; };
 		6BA66CB129FBA22600884CED /* UlisEventEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UlisEventEmitter.m; sourceTree = "<group>"; };
-		6BB2247D29FF770000A70586 /* warning.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = warning.gif; sourceTree = "<group>"; };
-		6BB2248429FF7D7700A70586 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = error.png; path = assets/error.png; sourceTree = "<group>"; };
-		6BB2248529FF7D7700A70586 /* money_flow.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = money_flow.gif; sourceTree = "<group>"; };
-		6BB2248629FF7D7700A70586 /* success.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = success.gif; path = assets/success.gif; sourceTree = "<group>"; };
-		6BB2248729FF7D7700A70586 /* store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = store.png; sourceTree = "<group>"; };
 		6BB87FAC2A02483500998526 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		6BC3308E2A062B4600D63A6E /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
-		6BC330952A0678D500D63A6E /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
-		6BC330972A0678EF00D63A6E /* success.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = success.gif; sourceTree = "<group>"; };
 		6BFFCBBC2A01116F00BCF2FC /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
 		6BFFCBBE2A0121D300BCF2FC /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* RnUlisSdk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RnUlisSdk-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -90,19 +79,12 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				6B0E10C62B60E42400F0684F /* Assets.xcassets */,
 				6BC3308E2A062B4600D63A6E /* ProgressIndicator.swift */,
 				6BB87FAC2A02483500998526 /* UIApplication.swift */,
-				6BC330972A0678EF00D63A6E /* success.gif */,
-				6BB2248429FF7D7700A70586 /* error.png */,
-				6BB2248529FF7D7700A70586 /* money_flow.gif */,
 				6BFFCBBC2A01116F00BCF2FC /* LabelView.swift */,
-				6BB2248729FF7D7700A70586 /* store.png */,
-				6BB2248629FF7D7700A70586 /* success.gif */,
-				6BB2247D29FF770000A70586 /* warning.gif */,
-				6BC330952A0678D500D63A6E /* error.png */,
 				6BA54EF429FD1E9700559A87 /* ApiManager.swift */,
 				6BA54EF129FD1E9700559A87 /* IndicatorViewController.swift */,
-				6BA54EF229FD1E9700559A87 /* iOSDevCenters+GIF.swift */,
 				6BA54EF329FD1E9700559A87 /* ReceiptViewController.swift */,
 				6BA54EF029FD1E9700559A87 /* ResponseBean.swift */,
 				6BA66CB129FBA22600884CED /* UlisEventEmitter.m */,
@@ -178,6 +160,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B0E10C72B60E42400F0684F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,14 +171,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BB2248929FF7DB600A70586 /* error.png in Sources */,
-				6BB2248A29FF7DB600A70586 /* money_flow.gif in Sources */,
-				6BB2248B29FF7DB600A70586 /* store.png in Sources */,
+				6B0E10CD2B6116D700F0684F /* Assets.xcassets in Sources */,
 				6BFFCBBF2A0121D300BCF2FC /* UIWindow.swift in Sources */,
-				6BB2248C29FF7DB600A70586 /* success.gif in Sources */,
-				6BB2248D29FF7DB600A70586 /* warning.gif in Sources */,
 				6B829D4C29FA4629009D2120 /* CheckoutViewController.swift in Sources */,
-				6BA54EF729FD1E9700559A87 /* iOSDevCenters+GIF.swift in Sources */,
 				6BC3308F2A062B4600D63A6E /* ProgressIndicator.swift in Sources */,
 				6BB87FAD2A02483500998526 /* UIApplication.swift in Sources */,
 				6BA54EEE29FD1E6700559A87 /* RnUlisSdk.m in Sources */,
