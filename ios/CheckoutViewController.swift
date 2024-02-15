@@ -15,10 +15,12 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     var redirectView: UIView!
     
     weak var countdownTimer:Timer?
-    var totalTime = 20
+    var totalTime = 10
     
     var webView: WKWebView!
     let activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView();
+    var env: String = ""
+    var region: String = ""
     var order_id: String = ""
     var token: String = ""
     var paymentLink: String = ""
@@ -52,15 +54,16 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
         webView = WKWebView(frame: .zero, configuration: webConfiguration)
         webView.uiDelegate = self
         view = webView
-
+    }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        view.bounds = view.safeAreaLayoutGuide.layoutFrame
     }
     
     override func viewDidAppear(_ animated: Bool) {
         showProgressMessage(labelText: "Wait loading checkout page")
         startLoading()
-//        indicator = ProgressIndicator(inview:self.view,loadingViewColor: UIColor.gray, indicatorColor: UIColor.white, msg: "Please wait order in process")
-//        self.view.addSubview(indicator!)
-//        indicator!.start()
     }
     
     override func viewDidLoad() {
@@ -80,24 +83,21 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     func showRedirectPageView(){
         
         // View
-        redirectView = UIView(frame: CGRect(x: 25.0, y: screenHeight-120, width: screenWidth-50, height: 90))
+        redirectView = UIView(frame: CGRect(x: 25.0, y: screenHeight-190, width: screenWidth-50, height: 90))
         redirectView.layer.cornerRadius = 5
-//        redirectView.layer.shadowColor = UIColor.black.cgColor
-//        redirectView.layer.shadowOffset = CGSizeZero
-//        redirectView.layer.shadowOpacity = 0.5
         redirectView.layer.shadowRadius = 5
         redirectView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
         view.addSubview(redirectView)
         
         // View Text
-        redirectText = UILabel(frame: CGRect(x: 25.0, y: screenHeight-120, width: screenWidth-50, height: 30))
+        redirectText = UILabel(frame: CGRect(x: 25.0, y: screenHeight-190, width: screenWidth-50, height: 30))
         redirectText.textColor = UIColor.black
         redirectText.textAlignment = NSTextAlignment.center
         redirectText.text = ""
         redirectText.center = redirectText.center
         view.addSubview(redirectText)
         
-        let button = UIButton(frame: CGRect(x: screenWidth/4, y: screenHeight-85, width: screenWidth/2, height: 50))
+        let button = UIButton(frame: CGRect(x: screenWidth/4, y: screenHeight-155, width: screenWidth/2, height: 50))
          button.setTitle("Done", for: .normal)
          button.backgroundColor = .white
          button.layer.cornerRadius = 5
@@ -113,7 +113,6 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     let defaults = UserDefaults.standard
     @objc func updateTime() {
 
-//        print(redirectText.text as Any)
         defaults.set(totalTime, forKey: "time")
         let updateTime = defaults.integer(forKey: "time")
         redirectText.text = "Screen redirecting in " +  "\(timeFormatted(updateTime))" + " secound"
@@ -144,8 +143,8 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         print("End loading")
-//        showProgressMessage(labelText: "")
-        message.text = ""
+        showProgressMessage(labelText: "")
+//        message.text = ""
         stopLoading()
 //        indicator!.stop()
     }
@@ -179,6 +178,8 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
             orderVC.mToken = self.token
             orderVC.mMerchantKey = self.merchantKey
             orderVC.mMerchantSecret = self.merchantSecret
+            orderVC.env = self.env
+            orderVC.mRegion = self.region
             let discoverVC = orderVC as UIViewController
             let navigationController = UINavigationController(rootViewController: discoverVC)
             navigationController.navigationBar.isTranslucent = false
@@ -198,16 +199,12 @@ class CheckoutViewController: UIViewController, WKNavigationDelegate, WKUIDelega
     */
     
     func showProgressMessage(labelText: String){
-        message.center = self.view.center;
-        message.translatesAutoresizingMaskIntoConstraints = false
-        message.lineBreakMode = .byWordWrapping
-        message.numberOfLines = 0
-        message.textAlignment = .center
+        message.frame = CGRect(x: 25.0, y: (screenHeight/2) - 95, width: screenWidth-50, height: 30)
+        message.textColor = UIColor.black
+        message.textAlignment = NSTextAlignment.center
         message.text = labelText
+        message.center = message.center
         view.addSubview(message)
-        message.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        message.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        message.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     func startLoading(){

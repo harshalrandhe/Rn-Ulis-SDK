@@ -30,11 +30,13 @@ class OrderViewController: UIViewController {
     var mResponseBean: ResponseBean!
     var option: AnyObject!
     var pendingCounter: Int = 0
+    var mRegion: String = ""
+    var env: String = ""
     
     
     func showTransactionId(){
         labelPoweredBy = UILabel()
-        labelPoweredBy.frame = CGRect(x: 50, y: self.view.bounds.maxY - 50, width: screenWidth-100, height: 21)
+        labelPoweredBy.frame = CGRect(x: 50, y: self.view.bounds.maxY - 40, width: screenWidth-100, height: 21)
         labelPoweredBy.lineBreakMode = .byWordWrapping
         labelPoweredBy.numberOfLines = 1
         labelPoweredBy.textAlignment = NSTextAlignment.center
@@ -144,7 +146,7 @@ class OrderViewController: UIViewController {
         if(self.orderAction == "create"){
             print("Create order........")
             // API Call
-            self.createOrderAPICall()
+            self.getRegionAPICall()
         }else{
             print("Check order........")
             self.message.text = "Please wait transaction in process"
@@ -152,95 +154,113 @@ class OrderViewController: UIViewController {
             self.checkOrderStatusAPICall()
         }
         
-//        let postResponse = ResponseBean()
-//        postResponse.message = "Testing"
-//        postResponse.status = 200
-//        postResponse.data = [
-//            "merchant_category_code": 2,
-//            "payment_method": "DEBIT CARD",
-//            "acquirer": "Mashreq",
-//            "authorized_amount": "AED 101.00",
-//            "convenience_fee": "AED 20.10",
-//            "domestic_international_fee": "AED 20.10",
-//            "total_amount": "AED 141.20",
-//            "account_identifier": "511111xxxxxx1118",
-//            "order_id": "IOP1428014",
-//            "card_expiry_date": "1-39",
-//            "created_date": "23-11-2023 10:11:42",
-//            "order_date": "23-11-2023 10:11:42",
-//            "last_update_date": "23-11-2023 10:11:42",
-//            "funding_method": "DEBIT",
-//            "card_brand": "VISA",
-//            "os": "0",
-//            "browser": "",
-//            "ip": "49.36.34.70",
-//            "country_of_ip": "",
-//            "country_of_card": "",
-//            "description": "initial invoice payment",
-//            "company_name": "Fintech Technology",
-//            "store_id": 100987,
-//            "transactions": [
-//                [
-//                    "date_time": "23-11-2023 10:16:12",
-//                    "type": "SALE",
-//                    "gateway_code": "AUTHORIZED",
-//                    "amount": "141.20 AED",
-//                    "transaction_id": "100000001473",
-//                    "created_by": ""
-//                ]
-//            ],
-//            "transaction_id": "100000001473",
-//            "authcode": "206465",
-//            "channel": "QR",
-//            "telr_details": "Dubai Digital Park, Building A1, PO Box 333882, Dubai, UAE",
-//            "customer_details": [
-//                "name": "Ulis Technology",
-//                "email": "vaibhav.p@yopmail.com",
-//                "mobile_no": "+91 9876543212",
-//                "mobile_code": "",
-//                "billing_address": [
-//                    "address_line_1": "nandanwan polic station nagpur",
-//                    "address_line_2": "",
-//                    "city": "Nagpur",
-//                    "province": "Maharashtra",
-//                    "country": "India",
-//                    "pincode": "440008"
-//                ],
-//                "shipping_address": [
-//                    "address_line_1": " polic station",
-//                    "address_line_2": " polic ",
-//                    "city": "nagpur",
-//                    "province": "india",
-//                    "country": "india",
-//                    "pincode": "676545"
-//                ],
-//                "redirect_url": ""
-//            ] as [String : Any] as [String : Any],
-//            "merchant_details": [
-//                "name": " ",
-//                "email": "rajugaikwaddf@yopmail.com",
-//                "mobile_no": "971 876543998"
-//            ],
-//            "return_url": "https://secure-uae.telrdev.com/"
-//        ] as [String : Any]
-//
-//        self.window = UIWindow(frame: UIScreen.main.bounds)
-//        let receiptVC = ReceiptViewController()
-//        receiptVC.responseBean = postResponse
-//        let navigationController = UINavigationController(rootViewController: receiptVC)
-//        navigationController.navigationBar.isTranslucent = false
-//        self.window.rootViewController = navigationController
-//        self.window.makeKeyAndVisible()
-        
     }
+    
+    
+    /**
+     *  API Call
+     *  Check Order Details
+     */
+    @objc func getRegionAPICall(){
+        
+        let url = "https://ulis.live:4010/api/v1/merchant_key_secret/find/region"
+        let optionsData: [String: Any] = option as! [String : Any]
+        var parameters: [String : Any] = [:]
+        var data: [String : Any] = [:]
+        
+        data["merchantKey"] = optionsData["merchantKey"]!
+        data["merchantSecret"] = optionsData["merchantSecret"]!
+        
+        parameters["data"] = data
+        
+        ApiManager.getMerchantRegionRequest(url: url, parameters: parameters, completion: { [self] response in
+            
+            if (response.status == 200) {
+                
+                if let Response = response.data as? [String : Any]{
+                    
+                    print ("getMerchantRegionResponse = \(Response)")
+                    
+                    let status = Response["status"] as? String
+                    let message = Response["message"] as? String
+                    
+                    
+                    if (status! == "success"){
+                        
+                        if let Data = Response["data"] as? [String : Any]{
+                            
+                            let regionOptional = Data["region"]
+                            let envOptional = Data["type"]
+                            mRegion = regionOptional as! String
+                            env = envOptional as! String
+                            
+                            print("Region...:  \(mRegion)")
+                            print("Env...:  \(env)")
+                            
+                            // API Call
+                            self.createOrderAPICall(region: mRegion, envType: env)
+                            
+                        }
+                        
+                    } else {
+                        // Else status! == "success"
+                        
+                        DispatchQueue.main.async {
+                            let ac = UIAlertController(title: "Failed!", message: message!, preferredStyle: .alert)
+                            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                                DispatchQueue.main.async {
+                                    
+                                    let responseData: [String: Any] = [
+                                        "status": response.status,
+                                        "message": response.message,
+                                    ]
+                                    
+                                    self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
+                                }
+                            }))
+                            self.present(ac, animated: true)
+                        }
+                        
+                        return
+                    }
+                }
+                
+            }else{
+                // Else response.status == 200
+                DispatchQueue.main.async {
+                    let ac = UIAlertController(title: "Error!", message: response.message, preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default,handler: { (_) in
+                        DispatchQueue.main.async {
+                            let responseData: [String: Any] = [
+                                "status": response.status,
+                                "message": response.message,
+                            ]
+                            
+                            self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
+                        }
+                    }))
+                    self.present(ac, animated: true)
+                }
+            }
+        }
+                                               )
+    }
+    
     
     /**
      * API Call
      * Create Order
      */
-    func createOrderAPICall(){
+    func createOrderAPICall(region: String, envType: String){
         
-        let url = "https://ulis.live:4014/api/v1/orders/create"
+        var url = ""
+        if(region == "UAE"){
+            url = "https://ulis.live:4014/api/v1/orders/create"
+        }else{
+            // For KSA
+            url = "https://ulis.live:4016/api/v1/orders/create"
+        }
+        
         
         let optionsData: [String: Any] = option as! [String : Any]
         var parameters: [String : Any] = [:]
@@ -300,24 +320,38 @@ class OrderViewController: UIViewController {
                         let order_id = Data["order_id"] as? String
                         let token = Data["token"] as? String
                         let payment_link = Data["payment_link"] as? String
-//                        let amount = Data["amount"] as? String
-//                        let status = Data["status"] as? String
                        
                         mOrderId = order_id!
                         mToken = token!
                         
+                        // API Call
+                        var APIParameters: [String: Any] = [:]
+                        APIParameters["orderId"] = order_id!
+                        APIParameters["token"] = token!
+                        APIParameters["paymentLink"] = payment_link!
+                        APIParameters["merchantKey"] = self.mMerchantKey
+                        APIParameters["merchantSecret"] = self.mMerchantSecret
+                        APIParameters["returnUrl"] = self.mReturnUrl
+                        APIParameters["successUrl"] = successUrl
+                        APIParameters["cancelUrl"] = cancelUrl
+                        APIParameters["failuerUrl"] = failuerUrl
+//                        
+//                        self.checkOrderDetailsAPICall(param: APIParameters)
+                        
                         DispatchQueue.main.async {
                             self.window = UIWindow(frame: UIScreen.main.bounds)
                             let discoverVC = CheckoutViewController()
-                            discoverVC.order_id = order_id!
-                            discoverVC.token = token!
-                            discoverVC.paymentLink = payment_link!
-                            discoverVC.merchantKey = self.mMerchantKey
-                            discoverVC.merchantSecret = self.mMerchantSecret
-                            discoverVC.returnUrl = self.mReturnUrl
-                            discoverVC.successUrl = successUrl
-                            discoverVC.cancelUrl = cancelUrl
-                            discoverVC.failureUrl = failuerUrl
+                            discoverVC.order_id = APIParameters["orderId"] as! String
+                            discoverVC.token = APIParameters["token"] as! String
+                            discoverVC.paymentLink = APIParameters["paymentLink"] as! String
+                            discoverVC.merchantKey = APIParameters["merchantKey"] as! String
+                            discoverVC.merchantSecret = APIParameters["merchantSecret"] as! String
+                            discoverVC.returnUrl = APIParameters["returnUrl"] as! String
+                            discoverVC.successUrl = APIParameters["successUrl"] as! String
+                            discoverVC.cancelUrl = APIParameters["cancelUrl"] as! String
+                            discoverVC.failureUrl = APIParameters["failuerUrl"] as! String
+                            discoverVC.env = self.env
+                            discoverVC.region = self.mRegion
                             let navigationController = UINavigationController(rootViewController: discoverVC)
                             navigationController.navigationBar.isTranslucent = false
                             self.window.rootViewController = navigationController
@@ -416,6 +450,91 @@ class OrderViewController: UIViewController {
         }
     }
     
+    /**
+     *  API Call
+     *  Check Order Details
+     */
+    @objc func checkOrderDetailsAPICall(param : [String: Any]){
+        
+        
+        var url = "https://ulis.live:4014/api/v1/orders/details"
+        if(mRegion == "KSA"){
+            url = "https://ulis.live:4016/api/v1/orders/details"
+        }
+        
+        
+        let parameters: [String: Any] = [
+                "order_id": mOrderId,
+                "token": mToken
+        ]
+        
+        ApiManager.checkOrderDetailsApiRequest(url: url, parameters: parameters, completion: { [self] response in
+            
+            if (response.status == 200) {
+                
+                if let Response = response.data as? [String : Any]{
+                    
+                    print ("OrderDetailsResponse = \(Response)")
+                    
+                    let status = Response["status"] as? String
+                    let message = Response["message"] as? String
+                    
+                    
+                    if (status! == "success"){
+                        
+                        if let Data = Response["data"] as? [String : Any]{
+                            if let OrderDetails = Data["order_details"] as? [String:Any]{
+                                print ("OrderDetails = \(OrderDetails)")
+                                env = (OrderDetails["env"] as? String)!
+                                print("API Mode...: ", self.env)
+                                print("Params...:  \(param)")
+                                
+                            }
+                        }
+                        
+                    } else {
+                        // Else status! == "success"
+                        
+                        DispatchQueue.main.async {
+                            let ac = UIAlertController(title: "Failed!", message: message!, preferredStyle: .alert)
+                            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                                DispatchQueue.main.async {
+                                    
+                                    let responseData: [String: Any] = [
+                                        "status": response.status,
+                                        "message": response.message,
+                                    ]
+                                    
+                                    self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
+                                }
+                            }))
+                            self.present(ac, animated: true)
+                        }
+                        
+                        return
+                    }
+                }
+                
+            }else{
+                // Else response.status == 200
+                DispatchQueue.main.async {
+                    let ac = UIAlertController(title: "Error!", message: response.message, preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default,handler: { (_) in
+                        DispatchQueue.main.async {
+                            let responseData: [String: Any] = [
+                                "status": response.status,
+                                "message": response.message,
+                            ]
+                            
+                            self.postResult(event: "Telr::PAYMENT_ERROR", response: responseData)
+                        }
+                    }))
+                    self.present(ac, animated: true)
+                }
+            }
+        }
+                                               )
+    }
     
     /**
      *  API Call
@@ -423,16 +542,22 @@ class OrderViewController: UIViewController {
      */
     @objc func checkOrderStatusAPICall(){
         
-//        let optionsData: [String: Any] = option as! [String : Any]
-//        mMerchantKey = optionsData["merchantKey"]! as! String
-//        mMerchantSecret = optionsData["merchantSecret"]! as! String
+        var BASE_URL = "https://ulis.live:4014"
+        if(mRegion == "KSA"){
+            BASE_URL = "https://ulis.live:4016"
+        }
         
-        let url = "https://ulis.live:4014/api/v1/orders/transaction-details-print"
+        var url = BASE_URL + "/api/v1/orders/transaction-details-print"
+        if(env == "test"){
+            url = BASE_URL + "/api/v1/orders/test/transaction-details-print"
+        }
+        
+        
+        print("<<ENV>>", env)
+        print("<<URL>>", url)
+        
         let parameters: [String: Any] = [
-//            "order_id": "ORD24010930", //failed order id
-//            "order_id": "ORD81927030", //success order id
                 "order_id": mOrderId,
-//                "token": mToken,
                 "merchantKey": mMerchantKey,
                 "merchantSecret": mMerchantSecret
         ]
@@ -451,7 +576,7 @@ class OrderViewController: UIViewController {
                 
                 if let Response = response.data as? [String : Any]{
                     
-                    print ("Response2 = \(Response)")
+                    print ("OrderStatusResponse = \(Response)")
                     
                     let status = Response["status"] as? String
                     let message = Response["message"] as? String

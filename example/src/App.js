@@ -2,6 +2,7 @@ import * as React from "react";
 
 import {
   Alert,
+  Image,
   KeyboardAvoidingView,
   NativeEventEmitter,
   NativeModules,
@@ -9,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -52,8 +54,14 @@ export default function App() {
   };
 
   // Merchant keys
-  const [MerchantKey, setMerchantKey] = React.useState("live-SH10ZQM18IQ");
-  const [MerchantSecret, setMerchantSecret] = React.useState("sec-IW101K818CW");
+  const [MerchantKey, setMerchantKey] = React.useState("test-0P14F013AY");
+  const [MerchantSecret, setMerchantSecret] = React.useState("sec-DM1C2I13PF");
+  // const [MerchantKey, setMerchantKey] = React.useState("live-4B1QTZ138S");
+  // const [MerchantSecret, setMerchantSecret] = React.useState("sec-HV18UG13PD");
+  // const [MerchantKey, setMerchantKey] = React.useState("test-ZR1OGP6NR");
+  // const [MerchantSecret, setMerchantSecret] = React.useState("sec-3P1LHI6GR");
+  // const [MerchantKey, setMerchantKey] = React.useState("live-SH10ZQM18IQ");
+  // const [MerchantSecret, setMerchantSecret] = React.useState("sec-IW101K818CW");
 
   // Customer Details
   const [Name, setName] = React.useState("PayTM USER");
@@ -80,21 +88,22 @@ export default function App() {
   // Order Details
   const [OrderId, setOrderId] = React.useState("ORD168085");
   const [Amount, setAmount] = React.useState("100.00");
-  const [Currency, setCurrency] = React.useState("AED");
+  const [Currency, setCurrency] = React.useState("SAR");
+  // const [Currency, setCurrency] = React.useState("AED");
   const [Description, setDescription] = React.useState("TShirt");
   const [ReturnUrl, setReturnUrl] = React.useState(
-    "https://ulis.live:8081/status"
+    "https://ulis.live:8084/status"
   );
 
   // Merchant Url
   const [SuccessUrl, setSuccessUrl] = React.useState(
-    "https://ulis.live:8081/status"
+    "https://ulis.live:8084/status"
   );
   const [CancelUrl, setCancelUrl] = React.useState(
-    "https://ulis.live:8081/status"
+    "https://ulis.live:8084/status"
   );
   const [FailureUrl, setFailureUrl] = React.useState(
-    "https://ulis.live:8081/status"
+    "https://ulis.live:8084/status"
   );
 
   //Others
@@ -103,6 +112,15 @@ export default function App() {
   const [TxnClass, setTxnClass] = React.useState("ecom");
 
   const [APIResponse, setAPIResponse] = React.useState("");
+  const [IsSameAsReturnUrl, setIsSameAsReturnUrl] = React.useState(false);
+
+  React.useEffect(() => {
+    if (IsSameAsReturnUrl) {
+      setSuccessUrl(ReturnUrl);
+      setFailureUrl(ReturnUrl);
+      setCancelUrl(ReturnUrl);
+    }
+  }, [IsSameAsReturnUrl]);
 
   var options = {
     merchantKey: MerchantKey,
@@ -118,7 +136,7 @@ export default function App() {
       vendorMobile: "1122334455",
       productName: "Classic Instant Coffee",
       productPrice: 125.0,
-      currency: "AED",
+      currency: "SAR",
       image:
         "https://assetscdn1.paytm.com/images/catalog/product/A/AP/APPSCOTT-INTERNSWIT61083A52CCB4C/1562907534025_1..jpg?imwidth=320&impolicy=hq",
     },
@@ -163,7 +181,7 @@ export default function App() {
     >
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.headerText}>Transaction Mode</Text>
+          {/* <Text style={styles.headerText}>Transaction Mode</Text>
 
           <OutlinedTextField
             label="Environment"
@@ -171,7 +189,7 @@ export default function App() {
             onChangeText={(value) => {
               setEnvironment(value);
             }}
-          />
+          /> */}
 
           <Text style={styles.headerText}>Merchant Key</Text>
 
@@ -371,7 +389,31 @@ export default function App() {
             }}
           />
 
-          <Text style={styles.headerText}>Merchant Urls</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.headerText}>Merchant Urls</Text>
+            <TouchableOpacity
+              onPress={() => setIsSameAsReturnUrl(!IsSameAsReturnUrl)}
+              style={{ flexDirection: "row", alignItems: "center" }}
+            >
+              <Text
+                style={{
+                  width: 20,
+                  height: 20,
+                  marginStart: 20,
+                  marginEnd: 10,
+                  borderWidth: 0.5,
+                  borderColor: "gray",
+                  color: "green",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: 14,
+                }}
+              >
+                {IsSameAsReturnUrl ? "✓" : ""}
+              </Text>
+              <Text style={styles.headerText}>Same as return url</Text>
+            </TouchableOpacity>
+          </View>
 
           <OutlinedTextField
             label="SuccessUrl"

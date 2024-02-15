@@ -77,7 +77,7 @@ dependencies {
   implementation 'androidx.databinding:viewbinding:8.2.1'
   implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
   implementation 'com.google.code.gson:gson:2.10.1'
-  implementation('com.github.harshalrandhe:ULISPay:v0.0.8') {
+  implementation('com.github.harshalrandhe:ULISPay:v0.1.1') {
     exclude group: "com.parse.bolts"
   }
 }
